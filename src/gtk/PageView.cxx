@@ -150,10 +150,15 @@ PageView::makeRectangleVisible (DocumentRectangle &rect, gdouble scale)
     GtkAdjustment *hAdjustment = gtk_scrolled_window_get_hadjustment (
             GTK_SCROLLED_WINDOW (m_PageScroll));
 
+    gdouble hvalue = gtk_adjustment_get_value (hAdjustment);
+    gdouble hlower = gtk_adjustment_get_lower (hAdjustment);
+    gdouble hupper = gtk_adjustment_get_upper (hAdjustment);
+    gdouble hpagesize = gtk_adjustment_get_page_size (hAdjustment);
+
     gdouble realX1 = rect.getX1 () * scale;
     gdouble realX2 = rect.getX2 () * scale;
     gdouble docX1 = getHorizontalScroll () - PAGE_VIEW_PADDING;
-    gdouble docX2 = docX1 + hAdjustment->page_size;
+    gdouble docX2 = docX1 + hpagesize;
 
     gdouble dx = 0.0;
     if ( realX1 < docX1 )
@@ -166,18 +171,21 @@ PageView::makeRectangleVisible (DocumentRectangle &rect, gdouble scale)
     }
 
     gtk_adjustment_set_value (GTK_ADJUSTMENT (hAdjustment),
-            CLAMP (hAdjustment->value + dx,
-                   hAdjustment->lower,
-                   hAdjustment->upper - hAdjustment->page_size));
+            CLAMP (hvalue + dx, hlower, hupper - hpagesize));
 
     // Calculate the vertical adjustment.
     GtkAdjustment *vAdjustment = gtk_scrolled_window_get_vadjustment (
             GTK_SCROLLED_WINDOW (m_PageScroll));
 
+    gdouble vvalue = gtk_adjustment_get_value (vAdjustment);
+    gdouble vlower = gtk_adjustment_get_lower (vAdjustment);
+    gdouble vupper = gtk_adjustment_get_upper (vAdjustment);
+    gdouble vpagesize = gtk_adjustment_get_page_size (vAdjustment);
+
     gdouble realY1 = rect.getY1 () * scale;
     gdouble realY2 = rect.getY2 () * scale;
     gdouble docY1 = getVerticalScroll () - PAGE_VIEW_PADDING;
-    gdouble docY2 = docY1 + vAdjustment->page_size;
+    gdouble docY2 = docY1 + vpagesize;
 
     gdouble dy = 0;
     if ( realY1 < docY1 )
@@ -190,9 +198,7 @@ PageView::makeRectangleVisible (DocumentRectangle &rect, gdouble scale)
     }
 
     gtk_adjustment_set_value (GTK_ADJUSTMENT (vAdjustment),
-            CLAMP (vAdjustment->value + dy,
-                   vAdjustment->lower,
-                   vAdjustment->upper - vAdjustment->page_size));
+            CLAMP (vvalue + dy, vlower, vupper - vpagesize));
 }
 
 void
@@ -280,38 +286,41 @@ PageView::setPresenter (PagePter *pter)
 void
 PageView::scrollPage (gdouble scrollX, gdouble scrollY, gint dx, gint dy)
 {
+    GtkAllocation alloc;
+    gtk_widget_get_allocation (m_PageImage, &alloc);
+
     /* if the page cannot scroll and i'm dragging bottom to up, or left to right, 
      i will go to the next page. viceversa previous page */
     GtkAdjustment *hAdjustment = gtk_scrolled_window_get_hadjustment (
             GTK_SCROLLED_WINDOW (m_PageScroll));
-    gdouble hAdjValue = hAdjustment->page_size *
-        (gdouble)dx / m_PageImage->allocation.width;
+
+    gdouble hlower = gtk_adjustment_get_lower (hAdjustment);
+    gdouble hupper = gtk_adjustment_get_upper (hAdjustment);
+    gdouble hpagesize = gtk_adjustment_get_page_size (hAdjustment);
+    gdouble hAdjValue = hpagesize * (gdouble)dx / alloc.width;
     gtk_adjustment_set_value (hAdjustment,
-            CLAMP (scrollX - hAdjValue,
-                   hAdjustment->lower,
-                   hAdjustment->upper - hAdjustment->page_size));
+            CLAMP (scrollX - hAdjValue, hlower, hupper - hpagesize));
 
     GtkAdjustment *vAdjustment = gtk_scrolled_window_get_vadjustment (
             GTK_SCROLLED_WINDOW (m_PageScroll));
-    gdouble vAdjValue = vAdjustment->page_size *
-        (gdouble)dy / m_PageImage->allocation.height;
+
+    gdouble vlower = gtk_adjustment_get_lower (vAdjustment);
+    gdouble vupper = gtk_adjustment_get_upper (vAdjustment);
+    gdouble vpagesize = gtk_adjustment_get_page_size (vAdjustment);
+    gdouble vAdjValue = vpagesize * (gdouble)dy / alloc.height;
     gtk_adjustment_set_value (vAdjustment,
-            CLAMP (scrollY - vAdjValue,
-                   vAdjustment->lower,
-                   vAdjustment->upper - vAdjustment->page_size));
+            CLAMP (scrollY - vAdjValue, vlower, vupper - vpagesize));
     
     /* if the page cannot scroll and i'm dragging bottom to up, or left to right, 
        I will go to the next page. viceversa previous page */
-    if ( (scrollY == (vAdjustment->upper - vAdjustment->page_size) &&
-                dy < (-SCROLL_PAGE_DRAG_LENGTH) ) ||
-        (scrollX == (hAdjustment->upper - hAdjustment->page_size) &&
-         dx < (-SCROLL_PAGE_DRAG_LENGTH)) )
+    if ( (scrollY == (vupper - vpagesize) && dy < (-SCROLL_PAGE_DRAG_LENGTH) ) ||
+        (scrollX == (hupper - hpagesize) && dx < (-SCROLL_PAGE_DRAG_LENGTH)) )
     {
         m_Pter->scrollToNextPage();
         m_Pter->mouseButtonReleased(1);
     }
-    else if( (scrollY == vAdjustment->lower && dy > SCROLL_PAGE_DRAG_LENGTH) ||
-        (scrollX == hAdjustment->lower && dx > SCROLL_PAGE_DRAG_LENGTH) )
+    else if( (scrollY == vlower && dy > SCROLL_PAGE_DRAG_LENGTH) ||
+        (scrollX == hlower && dx > SCROLL_PAGE_DRAG_LENGTH) )
     {
         m_Pter->scrollToPreviousPage();
         m_Pter->mouseButtonReleased(1);
@@ -337,13 +346,17 @@ PageView::showPage (DocumentPage *page, PageScroll scroll)
     {
         GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment (
                                     GTK_SCROLLED_WINDOW (m_PageScroll));
+
+	gdouble val;
         if ( PAGE_SCROLL_START == scroll )
         {
-            gtk_adjustment_set_value (adjustment, adjustment->lower);
+	    val = gtk_adjustment_get_lower (adjustment);
+            gtk_adjustment_set_value (adjustment, val);
         }
         else if ( PAGE_SCROLL_END == scroll )
         {
-            gtk_adjustment_set_value (adjustment, adjustment->upper);
+	    val = gtk_adjustment_get_upper (adjustment);
+            gtk_adjustment_set_value (adjustment, val);
         }
     }
 }
@@ -534,13 +547,17 @@ page_view_scrolled_cb (GtkWidget *widget, GdkEventScroll *event, gpointer data)
     GtkAdjustment *adjustment = 
         gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (widget));
     gdouble position = gtk_adjustment_get_value (adjustment);
-    if ( GDK_SCROLL_UP == event->direction && position == adjustment->lower )
+    gdouble lower = gtk_adjustment_get_lower (adjustment);
+    gdouble upper = gtk_adjustment_get_upper (adjustment);
+    gdouble pagesize = gtk_adjustment_get_page_size (adjustment);
+
+    if ( GDK_SCROLL_UP == event->direction && position == lower )
     {
         pter->scrollToPreviousPage ();
         return TRUE;
     }
     else if ( GDK_SCROLL_DOWN == event->direction &&
-              position == ( adjustment->upper - adjustment->page_size) )
+              position == ( upper - pagesize) )
     {
         pter->scrollToNextPage ();
         return TRUE;
@@ -565,9 +582,16 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
     GtkAdjustment *hadjustment = 
         gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (widget));
     gdouble hposition = gtk_adjustment_get_value (hadjustment);
+    gdouble hlower = gtk_adjustment_get_lower (hadjustment);
+    gdouble hupper = gtk_adjustment_get_upper (hadjustment);
+    gdouble hpagesize = gtk_adjustment_get_page_size (hadjustment);
+
     GtkAdjustment *vadjustment = 
         gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (widget));
     gdouble vposition = gtk_adjustment_get_value (vadjustment);
+    gdouble vlower = gtk_adjustment_get_lower (vadjustment);
+    gdouble vupper = gtk_adjustment_get_upper (vadjustment);
+    gdouble vpagesize = gtk_adjustment_get_page_size (vadjustment);
 
     if ( event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK) )
     {
@@ -579,7 +603,7 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
         case GDK_Left:
         case GDK_KP_Left:
         case GDK_h:
-            if ( hposition == hadjustment->lower )
+            if ( hposition == hlower )
             {
                 pter->scrollToPreviousPage ();
                 return TRUE;
@@ -591,7 +615,7 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
         case GDK_Right:
         case GDK_KP_Right:
         case GDK_l:
-            if ( hposition == ( hadjustment->upper - hadjustment->page_size) )
+            if ( hposition == ( hupper - hpagesize) )
             {
                 pter->scrollToNextPage ();
                 return TRUE;
@@ -603,7 +627,7 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
         case GDK_Up:
         case GDK_KP_Up:
         case GDK_k:
-            if ( vposition == vadjustment->lower )
+            if ( vposition == vlower )
             {
                 pter->scrollToPreviousPage ();
                 return TRUE;
@@ -614,7 +638,7 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
         case GDK_Down:
         case GDK_KP_Down:
         case GDK_j:
-            if ( vposition == ( vadjustment->upper - vadjustment->page_size) )
+            if ( vposition == ( vupper - vpagesize) )
             {
                 pter->scrollToNextPage ();
                 return TRUE;
@@ -624,7 +648,7 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
         case GDK_Page_Up:
         case GDK_KP_Page_Up:
-            if ( vposition == vadjustment->lower )
+            if ( vposition == vlower )
             {
                 pter->scrollToPreviousPage ();
                 return TRUE;
@@ -636,7 +660,7 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
         case GDK_KP_Space:
         case GDK_Page_Down:
         case GDK_KP_Page_Down:
-            if ( vposition == ( vadjustment->upper - vadjustment->page_size) )
+            if ( vposition == ( vupper - vpagesize) )
             {
                 pter->scrollToNextPage ();
                 return TRUE;
