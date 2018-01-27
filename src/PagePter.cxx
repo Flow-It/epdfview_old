@@ -421,7 +421,6 @@ PagePter::refreshPage (PageScroll pageScroll, gboolean wasZoomed)
                 {
                     view.showPage (documentPage, pageScroll);
                     delete documentPage;
-                    view.showText (_("Loading..."));
                 }
 
                 g_WaitingForPage = TRUE;

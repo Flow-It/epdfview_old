@@ -42,8 +42,6 @@ namespace ePDFView
             void showPage (DocumentPage *page, PageScroll scroll);
             void tryReShowPage (void);
             
-            void showText (const gchar *text);
-            
             void setInvertColorToggle(char on); // krogan edit
 
         protected:

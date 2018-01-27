@@ -184,20 +184,6 @@ namespace ePDFView
             
             virtual void setInvertColorToggle (char on) = 0; // krogan
 
-            ///
-            /// @brief Shows text on the page.
-            ///
-            /// This is only used when the page is still loading but the
-            /// presenter wants to show something on the user. The presenter
-            /// passes a text string to show during the rendering of the
-            /// current page. The view should put this string at the middle
-            /// of the currently shown page.
-            ///
-            /// @param text The text to show on the middle of the page.
-            ///
-            virtual void showText (const gchar *text) = 0;
-            
-            
         protected:
             ///
             /// @brief Creates a new IPageView object.
