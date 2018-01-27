@@ -129,8 +129,10 @@ PageView::getSize (gint *width, gint *height)
     gint vScrollSize = 0;
     gint hScrollSize = 0;
     page_view_get_scrollbars_size (m_PageScroll, &vScrollSize, &hScrollSize);
-    *width = m_PageScroll->allocation.width - vScrollSize;
-    *height = m_PageScroll->allocation.height - hScrollSize;
+    GtkAllocation alloc;
+    gtk_widget_get_allocation (m_PageScroll, &alloc);
+    *width = alloc.width - vScrollSize;
+    *height = alloc.height - hScrollSize;
 }
 
 gdouble
@@ -393,10 +395,10 @@ PageView::getPagePosition (gint widgetX, gint widgetY, gint *pageX, gint *pageY)
     GdkPixbuf *page = gtk_image_get_pixbuf (GTK_IMAGE (m_PageImage));
     if ( NULL != page )
     {
-        horizontalPadding =
-            (m_PageImage->allocation.width - gdk_pixbuf_get_width (page)) / 2;
-        verticalPadding =
-            (m_PageImage->allocation.height - gdk_pixbuf_get_height (page)) / 2;
+	GtkAllocation alloc;
+	gtk_widget_get_allocation (m_PageImage, &alloc);
+        horizontalPadding = (alloc.width - gdk_pixbuf_get_width (page)) / 2;
+        verticalPadding = (alloc.height - gdk_pixbuf_get_height (page)) / 2;
     }
 
     *pageX = widgetX - horizontalPadding + (gint)getHorizontalScroll ();
@@ -505,11 +507,14 @@ page_view_get_scrollbars_size (GtkWidget *widget, gint *width, gint *height)
     gtk_widget_style_get (widget, "scrollbar-spacing", &scrollBarSpacing, NULL);
 
     GtkWidget *vScrollBar = GTK_SCROLLED_WINDOW (widget)->vscrollbar;
-    *width = vScrollBar->allocation.width +
+    GtkWidget *hScrollBar = GTK_SCROLLED_WINDOW (widget)->hscrollbar;
+    GtkAllocation valloc, halloc;
+    gtk_widget_get_allocation (vScrollBar, &valloc);
+    gtk_widget_get_allocation (hScrollBar, &halloc);
+    *width = valloc.width +
              (PAGE_VIEW_PADDING + borderWidth) * 2 + scrollBarSpacing;
 
-    GtkWidget *hScrollBar = GTK_SCROLLED_WINDOW (widget)->hscrollbar;
-    *height = hScrollBar->allocation.height +
+    *height = halloc.height +
               (PAGE_VIEW_PADDING + borderHeight) * 2 + scrollBarSpacing;
 }
 
