@@ -12,24 +12,26 @@
 
         cd epdfview-<version>
 
-    5) Run the configure script. You can check its parameters using the
-       help option:
+    5) Run the build script. You can check its parameters using the
+       configure option:
 
-       ./configure --help
-       ./configure --prefix=/usr/local
+       mkdir build && cd build
+       meson
+       meson configure
+       meson configure -Dprefix=/usr/local
 
     6) Make the application:
     
-        make
+        ninja
 
     7) Make sure the application was built correctly (Optional. Needs
        CppUnit):
 
-        make check
+        ninja test
 
     8) Install it:
 
-        make install
+        ninja install
 
     9) Run the application:
 
