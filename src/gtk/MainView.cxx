@@ -1016,7 +1016,7 @@ MainView::createPageView ()
     gtk_container_add (GTK_CONTAINER (m_Sidebar), m_TreeIndex);
 
 
-    GtkWidget *hPaned = gtk_hpaned_new ();
+    GtkWidget *hPaned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
     gtk_paned_add1 (GTK_PANED (hPaned), m_Sidebar);
     gtk_paned_add2 (GTK_PANED (hPaned), m_PageView->getTopWidget ());
     gtk_widget_show (hPaned);
