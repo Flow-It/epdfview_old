@@ -121,7 +121,6 @@ PDFDocument::createDocumentLink (const PopplerLinkMapping *link,
             PopplerActionGotoDest *actionGoTo = (PopplerActionGotoDest *)action;
             PopplerDest *destination = actionGoTo->dest;
             int pageNum = destination->page_num;
-#if defined (HAVE_POPPLER_0_5_2)
             if ( POPPLER_DEST_NAMED == destination->type )
             {
                 destination =
@@ -133,7 +132,6 @@ PDFDocument::createDocumentLink (const PopplerLinkMapping *link,
                     poppler_dest_free (destination);
                 }
             }
-#endif // HAVE_POPPLER_0_5_2
 
             documentLink = new DocumentLinkGoto (
                     topLeft, bottomLeft, topRight, bottomRight,
@@ -346,11 +344,7 @@ PDFDocument::loadMetadata (void)
     gchar *format = NULL;
     gchar *keywords = NULL;
     PopplerPageLayout layout = POPPLER_PAGE_LAYOUT_UNSET;
-#if defined (HAVE_POPPLER_0_15_1)
     gboolean *linearized = NULL;
-#else
-    gchar *linearized = NULL;
-#endif
     GTime modDate;
     PopplerPageMode mode = POPPLER_PAGE_MODE_UNSET;
     gchar *producer = NULL;
@@ -484,7 +478,6 @@ PDFDocument::setOutline (DocumentOutline *outline,
                 child->setTitle (actionGoTo->title);
                 PopplerDest *destination = actionGoTo->dest;
                 child->setDestination (destination->page_num);
-#if defined (HAVE_POPPLER_0_5_2)
                 if ( POPPLER_DEST_NAMED == destination->type )
                 {
                     destination =
@@ -497,7 +490,6 @@ PDFDocument::setOutline (DocumentOutline *outline,
                         destination = NULL;
                     }
                 }
-#endif // HAVE_POPPLER_0_5_2
 
                     outline->addChild (child);
                 PopplerIndexIter *childIter =
@@ -632,7 +624,6 @@ PDFDocument::renderPage (gint pageNum)
     PopplerPage *page = poppler_document_get_page (m_Document, pageNum - 1);
     if ( NULL != page )
     {
-#if defined (HAVE_POPPLER_0_17_0)
         cairo_surface_t *surface = cairo_image_surface_create_for_data (
                 renderedPage->getData (),
                 CAIRO_FORMAT_ARGB32, width, height,
@@ -670,19 +661,6 @@ PDFDocument::renderPage (gint pageNum)
         cairo_destroy(context);
         cairo_surface_destroy (surface);
         convert_bgra_to_rgba(renderedPage->getData (), width, height);
-#else // !HAVE_POPPLER_0_17_0
-        // Create the pixbuf from the data and render to it.
-        GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data (renderedPage->getData (),
-                                                      GDK_COLORSPACE_RGB,
-                                                      FALSE,
-                                                      PIXBUF_BITS_PER_SAMPLE,
-                                                      width, height,
-                                                      renderedPage->getRowStride (),
-                                                      NULL, NULL);
-        poppler_page_render_to_pixbuf (page, 0, 0, width, height, getZoom (),
-                                       getRotation (), pixbuf);
-        g_object_unref (pixbuf);
-#endif // HAVE_POPPLER_0_17_0
         setLinks (renderedPage, page);
         g_object_unref (G_OBJECT (page));
     }
@@ -716,11 +694,7 @@ PDFDocument::saveFile (const gchar *filename, GError **error)
         return FALSE;
     }
     // Try to save the PDF document.
-#if defined (HAVE_POPPLER_0_8_0)
     gboolean result = poppler_document_save_a_copy (m_Document, filename_uri, error);
-#else // !HAVE_POPPLER_0_8_0
-    gboolean result = poppler_document_save (m_Document, filename_uri, error);
-#endif // HAVE_POPPLER_0_8_0
     g_free (filename_uri);
 
     return result;
@@ -748,29 +722,14 @@ PDFDocument::setTextSelection (DocumentRectangle *rect)
     gdouble pageWidth, pageHeight;
     poppler_page_get_size(page, &pageWidth, &pageHeight);
 
-#if defined (HAVE_POPPLER_0_15_0)
     PopplerRectangle textRect = { rect->getX1() / getZoom(),
                                   rect->getY1() / getZoom(),
                                   rect->getX2() / getZoom(),
                                   rect->getY2() / getZoom()};
-#else // !HAVE_POPPLER_0_15_0
-    //for get text we must exchange y coordinate, don't ask me where logic here.
-    PopplerRectangle textRect = { rect->getX1() / getZoom(),
-                                  (pageHeight - rect->getY2() / getZoom()),
-                                  rect->getX2() / getZoom(),
-                                  (pageHeight - rect->getY1() / getZoom())};
-#endif // HAVE_POPPLER_0_15_0
     repairEmpty(textRect);
 
-#if defined (HAVE_POPPLER_0_15_0)
     gchar *text = poppler_page_get_selected_text(page, POPPLER_SELECTION_GLYPH,
             &textRect);
-#elif defined (HAVE_POPPLER_0_6_0)
-    gchar *text = poppler_page_get_text(page, POPPLER_SELECTION_GLYPH,
-            &textRect);
-#else // !HAVE_POPPLER_0_6_0
-    gchar *text = poppler_page_get_text(page, &textRect);
-#endif // HAVE_POPPLER_0_6_0
     if(!text)
         goto cleanup;
 
@@ -806,7 +765,6 @@ PDFDocument::getTextRegion (DocumentRectangle *r)
     repairEmpty(rect);
 
     //calc selection size
-#if defined (HAVE_POPPLER_0_8_0)
     GList *selections = poppler_page_get_selection_region(page, getZoom(),
              POPPLER_SELECTION_GLYPH, &rect);
     res = gdk_region_new();
@@ -823,12 +781,6 @@ PDFDocument::getTextRegion (DocumentRectangle *r)
         gdk_region_union_with_rect (res, &rect);
     }
     poppler_page_selection_region_free (selections);
-#elif defined (HAVE_POPPLER_0_6_0)
-    res = poppler_page_get_selection_region(page, getZoom(),
-            POPPLER_SELECTION_GLYPH, &rect);
-#else // !HAVE_POPPLER_0_6_0
-    res = poppler_page_get_selection_region(page, getZoom(), &rect);
-#endif // HAVE_POPPLER_0_6_0
 
     //free some local data
     g_object_unref(page);

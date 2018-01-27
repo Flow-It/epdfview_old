@@ -1,0 +1,5 @@
+option('enable-printing', type : 'boolean', value : false)
+option('build-tests', type : 'boolean', value : false)
+option('build-docs', type : 'boolean', value : false)
+option('install-docs', type : 'boolean', value : false)
+option('enable-nls', type : 'boolean', value : true)

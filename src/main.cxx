@@ -17,14 +17,13 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gettext.h>
 #include <locale.h>
 #include <gtk/gtk.h>
 #ifndef _WIN32
 #include <glib-unix.h>
 #endif
 #include "epdfview.h"
-#include <MainView.h>
+#include "gtk/MainView.h"
 
 #ifdef _WIN32
 #include <io.h>
@@ -95,11 +94,13 @@ main (int argc, char **argv)
     }
 #endif
 
-    // Enable NLS.
+#ifdef ENABLE_NLS
     setlocale (LC_ALL, "");
     bindtextdomain (PACKAGE, LOCALEDIR);
     bind_textdomain_codeset (PACKAGE, "UTF-8");
     textdomain (PACKAGE);
+#endif
+
     // Create the command line options context.
     GOptionContext *optionContext = 
         g_option_context_new (_("[FILE] - view PDF documents"));

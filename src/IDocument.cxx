@@ -135,11 +135,7 @@ IDocument::IDocument ()
     m_FindPage = 0;
     m_Format = NULL;
     m_Keywords = NULL;
-#if defined (HAVE_POPPLER_0_15_1)
     m_Linearized = FALSE;
-#else
-    m_Linearized = NULL;
-#endif
     m_ModifiedDate = NULL;
     m_PageCache = NULL;
     m_PageCacheAge = 0;
@@ -168,9 +164,6 @@ IDocument::~IDocument ()
     g_free (m_FileName);
     g_free (m_Format);
     g_free (m_Keywords);
-#if !defined (HAVE_POPPLER_0_15_1)
-    g_free (m_Linearized);
-#endif
     g_free (m_ModifiedDate);
     g_free (m_Password);
     g_free (m_Producer);
@@ -755,16 +748,8 @@ IDocument::setFormat (gchar *format)
 const gchar *
 IDocument::getLinearized ()
 {
-#if defined (HAVE_POPPLER_0_15_1)
     if ( m_Linearized ) return "Yes";
     else return "No";
-#else
-    if ( NULL == m_Linearized )
-    {
-        return "No";
-    }
-    return m_Linearized;
-#endif
 }
 
 ///
@@ -773,21 +758,11 @@ IDocument::getLinearized ()
 /// @param linearized Set to "Yes" if the document is linearized. "No"
 ///                   otherwise. IDocument will free it.
 ///
-#if defined (HAVE_POPPLER_0_15_1)
 void
 IDocument::setLinearized (gboolean *linearized)
 {
     m_Linearized = linearized;
 }
-#else
-void
-    IDocument::setLinearized (gchar *linearized)
-{
-    g_free (m_Linearized);
-    m_Linearized = g_strdup (linearized);
-    g_free (linearized);
-}
-#endif
 
 ///
 /// @brief Gets the document's creation date.

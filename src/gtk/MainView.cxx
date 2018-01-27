@@ -18,7 +18,6 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gettext.h>
 #include <gtk/gtk.h>
 #include <epdfview.h>
 #include "StockIcons.h"
@@ -1085,16 +1084,16 @@ MainView::setMainWindowIcon ()
 {
     const gchar *iconFiles[] =
     {
-        "icon_epdfview-48.png",
-        "icon_epdfview-32.png",
-        "icon_epdfview-24.png",
+        "48x48/apps/epdfview.png",
+        "32x32/apps/epdfview.png",
+        "24x24/apps/epdfview.png",
     };
 
     GList *iconList = NULL;
     int iconFilesNum = G_N_ELEMENTS (iconFiles);
     for ( int iconIndex = 0 ; iconIndex < iconFilesNum ; iconIndex++ )
     {
-        gchar *filename = g_strconcat (DATADIR, "/pixmaps/", 
+        gchar *filename = g_strconcat (DATADIR, "/icons/hicolor/", 
                                        iconFiles[iconIndex], NULL);
         GError *error = NULL;
         GdkPixbuf *iconPixbuf = gdk_pixbuf_new_from_file (filename, &error);

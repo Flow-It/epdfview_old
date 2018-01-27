@@ -1,5 +1,0 @@
-epdfview 0.2:
-
-	* Forked https://github.com/jristz/epdfview - and remerged with changes
-	* Included Ctrl-Button1Down handler
-	* Included SIGHUP handler

@@ -164,11 +164,7 @@ DocumentPage::getHeight ()
 gint
 DocumentPage::getRowStride ()
 {
-#if defined (HAVE_POPPLER_0_17_0)
     return cairo_format_stride_for_width (CAIRO_FORMAT_RGB24, getWidth ());
-#else // !HAVE_POPPLER_0_17_0
-    return BYTES_PER_PIXEL * getWidth ();
-#endif // HAVE_POPPLER_0_17_0
 }
 
 ///
@@ -194,11 +190,7 @@ DocumentPage::getWidth ()
 gboolean
 DocumentPage::hasAlpha ()
 {
-#if defined (HAVE_POPPLER_0_17_0)
     return TRUE;
-#else // !HAVE_POPPLER_0_17_0
-    return FALSE;
-#endif // HAVE_POPPLER_0_17_0
 }
 
 ///

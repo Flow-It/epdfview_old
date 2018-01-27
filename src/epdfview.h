@@ -19,7 +19,7 @@
 #define __E_PDF_VIEW_H__
 
 #include <config.h>
-#include <gettext.h>
+#include <libintl.h>
 #include <glib.h>
 
 #include <Config.h>
@@ -57,5 +57,15 @@
 #include <PrintPter.h>
 #endif // HAVE_CUPS
 #include <MainPter.h>
+
+#ifdef ENABLE_NLS
+#define _(String) gettext (String)
+#define gettext_noop(String) String
+#define N_(String) gettext_noop (String)
+#else
+#define _(String) (String)
+#define gettext_noop(String) String
+#define N_(String) gettext_noop (String)
+#endif
 
 #endif //!__E_PDF_VIEW_H__

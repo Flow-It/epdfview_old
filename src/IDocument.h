@@ -306,11 +306,7 @@ namespace ePDFView
             const gchar *getFormat (void);
             void setFormat (gchar *format);
             const gchar *getLinearized (void);
-#if defined (HAVE_POPPLER_0_15_1)
             void setLinearized (gboolean *linearized);
-#else
-            void setLinearized (gchar *linearized);
-#endif
             const gchar *getCreationDate (void);
             void setCreationDate (gchar *date);
             const gchar *getModifiedDate (void);
@@ -386,11 +382,7 @@ namespace ePDFView
             /// The document's keyword.
             gchar *m_Keywords;
             /// Tells if the document is linearized or not.
-#if defined (HAVE_POPPLER_0_15_1)
             gboolean *m_Linearized;
-#else
-            gchar *m_Linearized;
-#endif
             /// The document's modification date and time.
             gchar *m_ModifiedDate;
             /// @brief The list of classes that will receive notifications
