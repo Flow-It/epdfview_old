@@ -507,8 +507,9 @@ page_view_get_scrollbars_size (GtkWidget *widget, gint *width, gint *height)
     gint scrollBarSpacing = 0;
     gtk_widget_style_get (widget, "scrollbar-spacing", &scrollBarSpacing, NULL);
 
-    GtkWidget *vScrollBar = GTK_SCROLLED_WINDOW (widget)->vscrollbar;
-    GtkWidget *hScrollBar = GTK_SCROLLED_WINDOW (widget)->hscrollbar;
+    GtkScrolledWindow *sw = GTK_SCROLLED_WINDOW (widget);
+    GtkWidget *vScrollBar = gtk_scrolled_window_get_vscrollbar (sw);
+    GtkWidget *hScrollBar = gtk_scrolled_window_get_hscrollbar (sw);
     GtkAllocation valloc, halloc;
     gtk_widget_get_allocation (vScrollBar, &valloc);
     gtk_widget_get_allocation (hScrollBar, &halloc);
