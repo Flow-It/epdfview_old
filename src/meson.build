@@ -3,7 +3,6 @@ gtk_src = [
     'gtk/MainView.cxx',
     'gtk/PageView.cxx',
     'gtk/PreferencesView.cxx',
-    'gtk/StockIcons.cxx',
 ]
 
 print_src = []

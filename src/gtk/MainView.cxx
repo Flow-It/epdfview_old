@@ -20,7 +20,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <epdfview.h>
-#include "StockIcons.h"
 #include "FindView.h"
 #include "PageView.h"
 #include "PreferencesView.h"
@@ -48,12 +47,9 @@ enum indexColumns
 
 // Forward declarations.
 static void main_window_about_box_cb (GtkWidget *, gpointer);
-static void main_window_about_box_url_hook (GtkAboutDialog *, const gchar *,
-                                            gpointer);
 static void main_window_find_cb (GtkWidget *, gpointer);
 static void main_window_fullscreen_cb (GtkToggleAction *, gpointer);
-static gboolean main_window_moved_or_resized_cb (GtkWidget *,
-												 GdkEventConfigure *, gpointer);
+static gboolean main_window_moved_or_resized_cb (GtkWidget *, GdkEventConfigure *, gpointer);
 static void main_window_go_to_first_page_cb (GtkWidget *, gpointer);
 static void main_window_go_to_last_page_cb (GtkWidget *, gpointer);
 static void main_window_go_to_next_page_cb (GtkWidget *, gpointer);
@@ -131,11 +127,11 @@ static const GtkActionEntry g_NormalEntries[] =
       N_("Shrink the document"),
       G_CALLBACK (main_window_zoom_out_cb) },
 
-    { "RotateRight", EPDFVIEW_STOCK_ROTATE_RIGHT, N_("Rotate _Right"), "<control>bracketright",
+    { "RotateRight", "object-roatate-right", N_("Rotate _Right"), "<control>bracketright",
       N_("Rotate the document 90 degrees clockwise"),
       G_CALLBACK (main_window_rotate_right_cb) },
 
-    { "RotateLeft", EPDFVIEW_STOCK_ROTATE_LEFT, N_("Rotate _Left"), "<control>bracketleft",
+    { "RotateLeft", "object-rotate-left", N_("Rotate _Left"), "<control>bracketleft",
       N_("Rotate the document 90 degrees counter-clockwise"),
       G_CALLBACK (main_window_rotate_left_cb) },
 
@@ -201,7 +197,8 @@ static GtkToggleActionEntry g_ToggleEntries[] =
       N_("Make the current document fill the window"),
       G_CALLBACK (main_window_zoom_fit_cb), FALSE },
 
-    { "ZoomWidth", EPDFVIEW_STOCK_ZOOM_WIDTH, N_("Zoom to _Width"), NULL,
+    // TODO use our own icon? at least a special icon for zoom-width
+    { "ZoomWidth",GTK_STOCK_ZOOM_FIT, N_("Zoom to _Width"), NULL,
       N_("Make the current document fill the window width"),
       G_CALLBACK (main_window_zoom_width_cb), FALSE },
 };
@@ -223,8 +220,6 @@ static GtkRadioActionEntry g_PageScrollEntries[] =
 MainView::MainView (MainPter *pter):
     IMainView (pter)
 {
-    // Initialise the stock items.
-    epdfview_stock_icons_init ();
     // Create the main window.
     m_MainWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     setMainWindowIcon ();
@@ -954,7 +949,7 @@ MainView::createCurrentZoom ()
                       G_CALLBACK (main_window_zoom_cb), m_Pter);
 
     GtkWidget *zoomBox = gtk_hbox_new (FALSE, 3);
-    gtk_box_pack_start_defaults (GTK_BOX (zoomBox), m_CurrentZoom);
+    gtk_box_pack_start (GTK_BOX (zoomBox), m_CurrentZoom, TRUE, TRUE, 0);
     gtk_box_pack_start (GTK_BOX (zoomBox), gtk_label_new ("%"),
                         FALSE, FALSE, 0);
     m_CurrentZoomToolItem = gtk_tool_item_new ();
@@ -1190,7 +1185,6 @@ main_window_about_box_cb (GtkWidget *widget, gpointer data)
     gchar *licenseTranslated = g_strconcat (_(license[0]), "\n",
                                             _(license[1]), "\n",
                                             _(license[2]), "\n", NULL);
-    gtk_about_dialog_set_url_hook (main_window_about_box_url_hook, NULL, NULL);
     gtk_show_about_dialog (NULL,
             "name", _("ePDFView"),
             "version", VERSION,
@@ -1203,17 +1197,6 @@ main_window_about_box_cb (GtkWidget *widget, gpointer data)
             NULL);
 
     g_free (licenseTranslated);
-}
-
-
-void
-main_window_about_box_url_hook (GtkAboutDialog *about, const gchar *link,
-                                gpointer data)
-{
-    g_assert ( NULL != data && "The data parameter is NULL.");
-
-    MainPter *pter = (MainPter *)data;
-    pter->aboutBoxLinkActivated (link);
 }
 
 ///

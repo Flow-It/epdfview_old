@@ -15,10 +15,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <epdfview.h>
-#include "StockIcons.h"
 #include "FindView.h"
 
 using namespace ePDFView;
@@ -63,13 +61,13 @@ FindView::FindView ():
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), textToFindItem, -1);
 
     // The "Find Next" button.
-    m_FindNext = gtk_tool_button_new_from_stock (EPDFVIEW_STOCK_FIND_NEXT);
+    m_FindNext = gtk_tool_button_new_from_stock (GTK_STOCK_GO_FORWARD);
     gtk_tool_item_set_is_important (m_FindNext, TRUE);
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), m_FindNext, -1);
 
     // The "Find Previous" button.
     m_FindPrevious = 
-        gtk_tool_button_new_from_stock (EPDFVIEW_STOCK_FIND_PREVIOUS);
+        gtk_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
     gtk_tool_item_set_is_important (m_FindPrevious, TRUE);
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), m_FindPrevious, -1);
 

@@ -357,7 +357,7 @@ PrintView::createJobTab ()
     // Print range frame.
     GtkWidget *printRangeLabel = gtk_label_new (_("<b>Print Range</b>"));
     GtkWidget *printRangeFrame = gtk_frame_new (NULL);
-    gtk_box_pack_start_defaults (GTK_BOX (mainBox), printRangeFrame);
+    gtk_box_pack_start (GTK_BOX (mainBox), printRangeFrame, TRUE, TRUE, 0);
     // Set a bold label and no border.
     gtk_label_set_use_markup (GTK_LABEL (printRangeLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (printRangeFrame), printRangeLabel);
@@ -390,7 +390,7 @@ PrintView::createJobTab ()
     // Page set frame
     GtkWidget *pageSetLabel = gtk_label_new (_("<b>Page Set</b>"));
     GtkWidget *pageSetFrame = gtk_frame_new (NULL);
-    gtk_box_pack_start_defaults (GTK_BOX (mainBox), pageSetFrame);
+    gtk_box_pack_start (GTK_BOX (mainBox), pageSetFrame, TRUE, TRUE, 0);
     // Set a bold label and no border.
     gtk_label_set_use_markup (GTK_LABEL (pageSetLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (pageSetFrame), pageSetLabel);
@@ -405,20 +405,20 @@ PrintView::createJobTab ()
     // Add the three radio buttons
     GtkWidget *allPageSetRadio =
         gtk_radio_button_new_with_mnemonic (NULL, _("A_ll pages"));
-    gtk_box_pack_start_defaults (GTK_BOX (pageSetBox), allPageSetRadio);
+    gtk_box_pack_start (GTK_BOX (pageSetBox), allPageSetRadio, TRUE, TRUE, 0);
     m_OddPageSet =
         gtk_radio_button_new_with_mnemonic_from_widget (
                 GTK_RADIO_BUTTON (allPageSetRadio), _("O_dd pages"));
-    gtk_box_pack_start_defaults (GTK_BOX (pageSetBox), m_OddPageSet);
+    gtk_box_pack_start (GTK_BOX (pageSetBox), m_OddPageSet, TRUE, TRUE, 0);
     m_EvenPageSet =
         gtk_radio_button_new_with_mnemonic_from_widget (
                 GTK_RADIO_BUTTON (allPageSetRadio), _("_Even pages"));
-    gtk_box_pack_start_defaults (GTK_BOX (pageSetBox), m_EvenPageSet);
+    gtk_box_pack_start (GTK_BOX (pageSetBox), m_EvenPageSet, TRUE, TRUE, 0);
 
     // Copies frame
     GtkWidget *copiesLabel = gtk_label_new (_("<b>Copies</b>"));
     GtkWidget *copiesFrame = gtk_frame_new (NULL);
-    gtk_box_pack_start_defaults (GTK_BOX (mainBox), copiesFrame);
+    gtk_box_pack_start(GTK_BOX (mainBox), copiesFrame, TRUE, TRUE, 0);
     // Set a bold label and no border.
     gtk_label_set_use_markup (GTK_LABEL (copiesLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (copiesFrame), copiesLabel);
@@ -463,7 +463,7 @@ PrintView::createPaperTab ()
     // Paper frame
     GtkWidget *paperLabel = gtk_label_new (_("<b>Paper and Layout</b>"));
     GtkWidget *paperFrame = gtk_frame_new (NULL);
-    gtk_box_pack_start_defaults (GTK_BOX (mainBox), paperFrame);
+    gtk_box_pack_start (GTK_BOX (mainBox), paperFrame, TRUE, TRUE, 0);
     // Set a bold label and no border.
     gtk_label_set_use_markup (GTK_LABEL (paperLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (paperFrame), paperLabel);
@@ -566,7 +566,7 @@ PrintView::createPaperTab ()
     // Output frame
     GtkWidget *outputLabel = gtk_label_new (_("<b>Output</b>"));
     GtkWidget *outputFrame = gtk_frame_new (NULL);
-    gtk_box_pack_start_defaults (GTK_BOX (mainBox), outputFrame);
+    gtk_box_pack_start (GTK_BOX (mainBox), outputFrame, TRUE, TRUE, 0);
     // Set a bold label and no border.
     gtk_label_set_use_markup (GTK_LABEL (outputLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (outputFrame), outputLabel);
@@ -658,7 +658,7 @@ PrintView::createPrinterTab ()
     gtk_container_add (GTK_CONTAINER (scrollBox), m_PrinterListView);
     gtk_container_add (GTK_CONTAINER (mainBox), scrollBox);
 
-    gtk_box_pack_start_defaults (GTK_BOX (mainBox), m_PrinterListView);
+    gtk_box_pack_start (GTK_BOX (mainBox), m_PrinterListView, TRUE, TRUE, 0);
 
     {
         GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
