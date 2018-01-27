@@ -605,9 +605,9 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 
     switch ( event->keyval )
     {
-        case GDK_Left:
-        case GDK_KP_Left:
-        case GDK_h:
+        case GDK_KEY_Left:
+        case GDK_KEY_KP_Left:
+        case GDK_KEY_h:
             if ( hposition == hlower )
             {
                 pter->scrollToPreviousPage ();
@@ -617,9 +617,9 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
             horizontal = TRUE;
             break;
 
-        case GDK_Right:
-        case GDK_KP_Right:
-        case GDK_l:
+        case GDK_KEY_Right:
+        case GDK_KEY_KP_Right:
+        case GDK_KEY_l:
             if ( hposition == ( hupper - hpagesize) )
             {
                 pter->scrollToNextPage ();
@@ -629,9 +629,9 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
             direction = GTK_SCROLL_STEP_RIGHT;
             break;
 
-        case GDK_Up:
-        case GDK_KP_Up:
-        case GDK_k:
+        case GDK_KEY_Up:
+        case GDK_KEY_KP_Up:
+        case GDK_KEY_k:
             if ( vposition == vlower )
             {
                 pter->scrollToPreviousPage ();
@@ -640,9 +640,9 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
             direction = GTK_SCROLL_STEP_UP;
             break;
 
-        case GDK_Down:
-        case GDK_KP_Down:
-        case GDK_j:
+        case GDK_KEY_Down:
+        case GDK_KEY_KP_Down:
+        case GDK_KEY_j:
             if ( vposition == ( vupper - vpagesize) )
             {
                 pter->scrollToNextPage ();
@@ -651,8 +651,8 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
             direction = GTK_SCROLL_STEP_DOWN;
             break;
 
-        case GDK_Page_Up:
-        case GDK_KP_Page_Up:
+        case GDK_KEY_Page_Up:
+        case GDK_KEY_KP_Page_Up:
             if ( vposition == vlower )
             {
                 pter->scrollToPreviousPage ();
@@ -661,10 +661,10 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
             direction = GTK_SCROLL_PAGE_UP;
             break;
 
-        case GDK_space:
-        case GDK_KP_Space:
-        case GDK_Page_Down:
-        case GDK_KP_Page_Down:
+        case GDK_KEY_space:
+        case GDK_KEY_KP_Space:
+        case GDK_KEY_Page_Down:
+        case GDK_KEY_KP_Page_Down:
             if ( vposition == ( vupper - vpagesize) )
             {
                 pter->scrollToNextPage ();
@@ -673,23 +673,23 @@ page_view_keypress_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
             direction = GTK_SCROLL_PAGE_DOWN;
             break;
 
-       case GDK_Home:
-       case GDK_KP_Home:
+       case GDK_KEY_Home:
+       case GDK_KEY_KP_Home:
             direction = GTK_SCROLL_START;
             break;
 
-       case GDK_End:
-       case GDK_KP_End:
+       case GDK_KEY_End:
+       case GDK_KEY_KP_End:
             direction = GTK_SCROLL_END;
             break;
 
-       case GDK_Return:
-       case GDK_KP_Enter:
+       case GDK_KEY_Return:
+       case GDK_KEY_KP_Enter:
             pter->scrollToNextPage ();
             direction = GTK_SCROLL_START;
             break;
 
-       case GDK_BackSpace:
+       case GDK_KEY_BackSpace:
             pter->scrollToPreviousPage ();
             direction = GTK_SCROLL_START;
             break;

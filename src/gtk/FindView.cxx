@@ -231,7 +231,7 @@ find_view_text_to_find_key_press_cb (GtkEntry *entry, GdkEventKey *key,
 {
     g_assert (NULL != data && "The data parameter is NULL.");
 
-    if ( GDK_Escape == key->keyval )
+    if ( GDK_KEY_Escape == key->keyval )
     {
         FindPter *pter = (FindPter *)data;
         pter->closeActivated ();
