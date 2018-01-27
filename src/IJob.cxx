@@ -78,13 +78,9 @@ IJob::dispatcher (gpointer data)
 void
 IJob::init ()
 {
-    if ( !g_thread_supported () )
-    {
-        g_thread_init (NULL);
-    }
     m_JobsQueue = g_async_queue_new ();
     GError *error = NULL;
-    if ( NULL == g_thread_create (IJob::dispatcher, NULL, FALSE, &error) )
+    if ( NULL == g_thread_try_new (NULL, IJob::dispatcher, NULL, &error) )
     {
         g_error ("Couldn't create the dispatcher thread: %s\n", error->message);
     }

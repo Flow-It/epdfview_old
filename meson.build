@@ -11,9 +11,9 @@ top_inc = include_directories('.')
 src_inc = include_directories('src')
 
 # dependencies
-glib_dep = dependency('glib-2.0')
+glib_dep = dependency('glib-2.0', version : '>= 2.32.0')
 gtk_dep = dependency('gtk+-2.0', version : '>= 2.6.0')
-poppler_dep = dependency('poppler-glib', version : '>= 0.5.0')
+poppler_dep = dependency('poppler-glib', version : '>= 0.17.0')
 
 deps = [glib_dep, gtk_dep, poppler_dep]
 
