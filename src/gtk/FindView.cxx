@@ -50,7 +50,7 @@ FindView::FindView ():
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), m_Close, -1);
 
     // The text to find entry.
-    GtkWidget *textToFindBox = gtk_hbox_new (FALSE, 6);
+    GtkWidget *textToFindBox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_box_pack_start (GTK_BOX (textToFindBox), gtk_label_new (_("Find:")),
                         FALSE, FALSE, 0);
     m_TextToFind = gtk_entry_new ();

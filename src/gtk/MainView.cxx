@@ -229,7 +229,7 @@ MainView::MainView (MainPter *pter):
     g_signal_connect (G_OBJECT (m_MainWindow), "configure-event",
                       G_CALLBACK (main_window_moved_or_resized_cb), NULL);
     // Create the main vertical box.
-    m_MainBox = gtk_vbox_new (FALSE, 0);
+    m_MainBox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add (GTK_CONTAINER (m_MainWindow), m_MainBox);
     gtk_widget_show (m_MainBox);
     // Generate menu and tool bars.
@@ -398,7 +398,7 @@ MainView::promptPasswordDialog ()
     GtkWidget *passwordEntry = gtk_entry_new ();
     gtk_entry_set_visibility (GTK_ENTRY (passwordEntry), FALSE);
     gtk_entry_set_activates_default (GTK_ENTRY (passwordEntry), TRUE);
-    GtkWidget *vbox = gtk_vbox_new (FALSE, 12);
+    GtkWidget *vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
     gtk_box_pack_start (GTK_BOX (vbox), primaryLabel, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), secondaryLabel, TRUE, TRUE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), passwordEntry, FALSE, FALSE, 6);
@@ -407,7 +407,7 @@ MainView::promptPasswordDialog ()
         gtk_image_new_from_stock (GTK_STOCK_DIALOG_AUTHENTICATION,
                                   GTK_ICON_SIZE_DIALOG);
     gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 12);
+    GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
     gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
     gtk_widget_show_all (hbox);
@@ -915,7 +915,7 @@ MainView::showToolbar (gboolean show)
 void
 MainView::createCurrentPage ()
 {
-    GtkWidget *hbox = gtk_hbox_new (FALSE, 3);
+    GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 
     GtkWidget *pageLabel = gtk_label_new (_("Page"));
     gtk_box_pack_start (GTK_BOX (hbox), pageLabel, FALSE, FALSE, 0);
@@ -948,7 +948,7 @@ MainView::createCurrentZoom ()
     g_signal_connect (G_OBJECT (m_CurrentZoom), "activate",
                       G_CALLBACK (main_window_zoom_cb), m_Pter);
 
-    GtkWidget *zoomBox = gtk_hbox_new (FALSE, 3);
+    GtkWidget *zoomBox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
     gtk_box_pack_start (GTK_BOX (zoomBox), m_CurrentZoom, TRUE, TRUE, 0);
     gtk_box_pack_start (GTK_BOX (zoomBox), gtk_label_new ("%"),
                         FALSE, FALSE, 0);

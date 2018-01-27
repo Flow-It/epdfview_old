@@ -351,7 +351,7 @@ PrintView::getOptionFromComboBox (GtkWidget *comboBox, gpointer value)
 GtkWidget *
 PrintView::createJobTab ()
 {
-    GtkWidget *mainBox = gtk_vbox_new (FALSE, 12);
+    GtkWidget *mainBox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
     gtk_container_set_border_width (GTK_CONTAINER (mainBox), 3);
 
     // Print range frame.
@@ -400,7 +400,8 @@ PrintView::createJobTab ()
     gtk_alignment_set_padding (GTK_ALIGNMENT (pageSetAlign), 6, 0, 12, 6);
     gtk_container_add (GTK_CONTAINER (pageSetFrame), pageSetAlign);
     // The vbox to add all controls.
-    GtkWidget *pageSetBox = gtk_vbox_new (TRUE, 3);
+    GtkWidget *pageSetBox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
+    gtk_box_set_homogeneous (GTK_BOX (pageSetBox), TRUE);
     gtk_container_add (GTK_CONTAINER (pageSetAlign), pageSetBox);
     // Add the three radio buttons
     GtkWidget *allPageSetRadio =
@@ -457,7 +458,7 @@ PrintView::createJobTab ()
 GtkWidget *
 PrintView::createPaperTab ()
 {
-    GtkWidget *mainBox = gtk_vbox_new (FALSE, 12);
+    GtkWidget *mainBox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
     gtk_container_set_border_width (GTK_CONTAINER (mainBox), 3);
 
     // Paper frame
@@ -644,7 +645,7 @@ PrintView::createPaperTab ()
 GtkWidget *
 PrintView::createPrinterTab ()
 {
-    GtkWidget *mainBox = gtk_vbox_new (FALSE, 12);
+    GtkWidget *mainBox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
     gtk_container_set_border_width (GTK_CONTAINER (mainBox), 3);
 
     createPrinterListModel ();
