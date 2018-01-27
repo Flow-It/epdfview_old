@@ -494,13 +494,14 @@ page_view_get_scrollbars_size (GtkWidget *widget, gint *width, gint *height)
     g_assert (NULL != width && "Tried to save the width to a NULL pointer.");
     g_assert (NULL != height && "Tried to save the height to a NULL pointer.");
 
-    gint borderWidth = widget->style->xthickness;
-    gint borderHeight = widget->style->ythickness;
+    GtkStyle *style = gtk_widget_get_style (widget);
+    gint borderWidth = style->xthickness;
+    gint borderHeight = style->ythickness;
     if ( GTK_SHADOW_NONE !=
             gtk_scrolled_window_get_shadow_type (GTK_SCROLLED_WINDOW (widget)) )
     {
-        borderWidth += widget->style->xthickness;
-        borderHeight += widget->style->ythickness;
+        borderWidth += style->xthickness;
+        borderHeight += style->ythickness;
     }
 
     gint scrollBarSpacing = 0;
