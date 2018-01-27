@@ -435,7 +435,7 @@ PrintView::createJobTab ()
     gtk_table_set_col_spacings (GTK_TABLE (copiesTable), 12);
     // Create the Num. of Copies label and spin.
     GtkWidget *numCopiesLabel = gtk_label_new (_("N_umber of copies:"));
-    gtk_misc_set_alignment (GTK_MISC (numCopiesLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (numCopiesLabel), 1.0f);
     gtk_label_set_use_underline (GTK_LABEL (numCopiesLabel), TRUE);
     m_NumberOfCopies = gtk_spin_button_new_with_range (1, 999, 1);
     gtk_label_set_mnemonic_widget (GTK_LABEL (numCopiesLabel),
@@ -480,7 +480,7 @@ PrintView::createPaperTab ()
     gtk_table_set_col_spacings (GTK_TABLE (paperTable), 12);
     // Paper size and combobox
     GtkWidget *paperSizeLabel = gtk_label_new (_("Paper _Size:"));
-    gtk_misc_set_alignment (GTK_MISC (paperSizeLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (paperSizeLabel), 1.0f);
     gtk_label_set_use_underline (GTK_LABEL (paperSizeLabel), TRUE);
     createPageSizeListModel ();
     m_PageSizeView = gtk_combo_box_new_with_model (GTK_TREE_MODEL (m_PageSize));
@@ -506,7 +506,7 @@ PrintView::createPaperTab ()
                       0, 0);
     // Page orientation label and combobox
     GtkWidget *pageOrientationLabel = gtk_label_new (_("Page _orientation:"));
-    gtk_misc_set_alignment (GTK_MISC (pageOrientationLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (pageOrientationLabel), 1.0f);
     gtk_label_set_use_underline (GTK_LABEL (pageOrientationLabel), TRUE);
 
     createOrientationListModel ();
@@ -537,7 +537,7 @@ PrintView::createPaperTab ()
                       0, 0);
     // Layout label and combobox
     GtkWidget *layoutLabel = gtk_label_new (_("_Layout:"));
-    gtk_misc_set_alignment (GTK_MISC (layoutLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (layoutLabel), 1.0f);
     gtk_label_set_use_underline (GTK_LABEL (layoutLabel), TRUE);
 
     createLayoutListModel ();
@@ -583,7 +583,7 @@ PrintView::createPaperTab ()
     gtk_table_set_col_spacings (GTK_TABLE (outputTable), 12);
     // Color mode
     GtkWidget *colorModeLabel = gtk_label_new (_("_Mode:"));
-    gtk_misc_set_alignment (GTK_MISC (colorModeLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (colorModeLabel), 1.0f);
     gtk_label_set_use_underline (GTK_LABEL (colorModeLabel), TRUE);
     createColorModelListModel ();
     m_ColorModelView =
@@ -611,7 +611,7 @@ PrintView::createPaperTab ()
                       0, 0);
     // Resolution
     GtkWidget *resolutionLabel = gtk_label_new (_("_Resolution:"));
-    gtk_misc_set_alignment (GTK_MISC (resolutionLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (resolutionLabel), 1.0f);
     gtk_label_set_use_underline (GTK_LABEL (resolutionLabel), TRUE);
 
     createResolutionListModel ();

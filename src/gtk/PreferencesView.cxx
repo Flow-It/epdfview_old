@@ -106,7 +106,7 @@ PreferencesView::createExternalCommandsTab ()
 
     m_BrowserCommandLine = gtk_entry_new ();
     GtkWidget *webBrowserLabel = gtk_label_new (_("Web_Browser:"));
-    gtk_misc_set_alignment (GTK_MISC (webBrowserLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (webBrowserLabel), 1.0f);
     gtk_label_set_use_markup (GTK_LABEL (webBrowserLabel), TRUE);
     gtk_label_set_use_underline (GTK_LABEL (webBrowserLabel), TRUE);
     gtk_label_set_mnemonic_widget (GTK_LABEL (webBrowserLabel),
@@ -127,7 +127,7 @@ PreferencesView::createExternalCommandsTab ()
 
     // The %s note.
     GtkWidget *note = gtk_label_new (_("Note: <i>%s</i> will be replaced by the URI."));
-    gtk_misc_set_alignment (GTK_MISC (note), 0.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (note), 0.0f);
     gtk_label_set_use_markup (GTK_LABEL (note), TRUE);
     gtk_table_attach (GTK_TABLE (table), note, 0, 2, 1, 2,
                       (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
@@ -139,7 +139,7 @@ PreferencesView::createExternalCommandsTab ()
 	//
     m_BacksearchCommandLine = gtk_entry_new ();
     GtkWidget *backsearchLabel = gtk_label_new (_("SyncTeX script:"));
-    gtk_misc_set_alignment (GTK_MISC (backsearchLabel), 1.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (backsearchLabel), 1.0f);
     gtk_label_set_use_markup (GTK_LABEL (backsearchLabel), TRUE);
     gtk_label_set_use_underline (GTK_LABEL (backsearchLabel), TRUE);
     gtk_label_set_mnemonic_widget (GTK_LABEL (backsearchLabel),
@@ -159,7 +159,7 @@ PreferencesView::createExternalCommandsTab ()
 
     // The meaning of %p %x %y %f
     GtkWidget *note2 = gtk_label_new (_("Note: <i>%p</i>=page <i>%x,%y</i>=coordinates <i>%f</i>=PDF file"));
-    gtk_misc_set_alignment (GTK_MISC (note2), 0.0, 0.5);
+    gtk_label_set_xalign (GTK_LABEL (note2), 0.0f);
     gtk_label_set_use_markup (GTK_LABEL (note2), TRUE);
     gtk_table_attach (GTK_TABLE (table), note2, 0, 2, 3, 4,
                       (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),

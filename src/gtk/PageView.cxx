@@ -82,8 +82,10 @@ PageView::PageView ():
 
     // The actual page image.
     m_PageImage = gtk_image_new ();
-    gtk_misc_set_padding (GTK_MISC (m_PageImage), 
-                          PAGE_VIEW_PADDING, PAGE_VIEW_PADDING);
+    gtk_widget_set_margin_start (m_PageImage, PAGE_VIEW_PADDING);
+    gtk_widget_set_margin_end (m_PageImage, PAGE_VIEW_PADDING);
+    gtk_widget_set_margin_top (m_PageImage, PAGE_VIEW_PADDING);
+    gtk_widget_set_margin_bottom (m_PageImage, PAGE_VIEW_PADDING);
 
     // I want to be able to drag the page with the left mouse
     // button, because that will make possible to move the page

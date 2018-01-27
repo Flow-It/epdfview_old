@@ -387,14 +387,16 @@ MainView::promptPasswordDialog ()
     gtk_label_set_markup (GTK_LABEL (primaryLabel),
             "<span weight=\"bold\" size=\"larger\">Encrypted Document</span>");
     gtk_label_set_selectable (GTK_LABEL (primaryLabel), TRUE);
-    gtk_misc_set_alignment (GTK_MISC (primaryLabel), 0.0, 0.0);
+    gtk_label_set_xalign (GTK_LABEL (primaryLabel), 0.0f);
+    gtk_label_set_yalign (GTK_LABEL (primaryLabel), 0.0f);
     GtkWidget *secondaryLabel = gtk_label_new ("This document is encrypted "
                                                "and can't be accessed. "
                                                "Please enter the document's "
                                                "password:");
     gtk_label_set_line_wrap (GTK_LABEL (secondaryLabel), TRUE);
     gtk_label_set_selectable (GTK_LABEL (secondaryLabel), TRUE);
-    gtk_misc_set_alignment (GTK_MISC (secondaryLabel), 0.0, 0.0);
+    gtk_label_set_xalign (GTK_LABEL (secondaryLabel), 0.0f);
+    gtk_label_set_yalign (GTK_LABEL (secondaryLabel), 0.0f);
     GtkWidget *passwordEntry = gtk_entry_new ();
     gtk_entry_set_visibility (GTK_ENTRY (passwordEntry), FALSE);
     gtk_entry_set_activates_default (GTK_ENTRY (passwordEntry), TRUE);
@@ -406,7 +408,8 @@ MainView::promptPasswordDialog ()
     GtkWidget *image =
         gtk_image_new_from_stock (GTK_STOCK_DIALOG_AUTHENTICATION,
                                   GTK_ICON_SIZE_DIALOG);
-    gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
+    gtk_widget_set_halign (image, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign (image, GTK_ALIGN_START);
     GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
     gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
     gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
@@ -928,7 +931,7 @@ MainView::createCurrentPage ()
                       G_CALLBACK (main_window_go_to_page_cb), m_Pter);
     gtk_box_pack_start (GTK_BOX (hbox), m_CurrentPage, TRUE, TRUE, 0);
     m_NumberOfPages = gtk_label_new (_("of 0"));
-    gtk_misc_set_alignment (GTK_MISC (m_NumberOfPages), 0.0f, 0.5f);
+    gtk_label_set_xalign (GTK_LABEL (m_NumberOfPages), 0.0f);
     gtk_box_pack_start (GTK_BOX (hbox), m_NumberOfPages, FALSE, FALSE, 0);
 
     m_CurrentPageToolItem = gtk_tool_item_new ();
