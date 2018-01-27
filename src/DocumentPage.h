@@ -18,7 +18,7 @@
 #if !defined (__DOCUMENT_PAGE_H__)
 #define __DOCUMENT_PAGE_H__
 
-typedef struct _GdkRegion GdkRegion;
+#include <cairo.h>
 
 namespace ePDFView
 {
@@ -44,7 +44,7 @@ namespace ePDFView
             gboolean hasAlpha (void);
             gboolean newPage (gint width, gint height);
             void setSelection (DocumentRectangle &selection, gdouble scale);
-            void setSelection (GdkRegion *region);
+            void setSelection (const cairo_region_t *region);
 
         protected:
             /// The page's image.
@@ -66,9 +66,9 @@ namespace ePDFView
             /// The list of links from the page.
             GList *m_LinkList;
             /// Selection region
-            GdkRegion *m_Selection;
+            cairo_region_t *m_Selection;
             
-            void invertRegion (GdkRegion*);
+            void invertRegion (const cairo_region_t *region);
             void invertArea (gint x1, gint y1, gint x2, gint y2);
     };
 }
