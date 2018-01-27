@@ -58,7 +58,8 @@ PrintView::PrintView (GtkWindow *parent):
     gtk_window_set_skip_taskbar_hint (GTK_WINDOW (m_PrintDialog), TRUE);
 
     GtkWidget *notebook = gtk_notebook_new ();
-    gtk_container_add (GTK_CONTAINER (GTK_DIALOG (m_PrintDialog)->vbox),
+    gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (
+				    GTK_DIALOG (m_PrintDialog))),
                        notebook);
     gtk_container_set_border_width (GTK_CONTAINER (notebook), 6);
 

@@ -428,7 +428,8 @@ MainView::promptPasswordDialog ()
             GTK_RESPONSE_ACCEPT, GTK_RESPONSE_CANCEL, -1);
     gtk_dialog_set_default_response (GTK_DIALOG (passwordDialog), 
                                      GTK_RESPONSE_ACCEPT);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (passwordDialog)->vbox),
+    gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (
+				    GTK_DIALOG (passwordDialog))),
                         hbox, FALSE, FALSE, 0);
 
     gchar *password = NULL;
