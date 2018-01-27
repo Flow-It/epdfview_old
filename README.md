@@ -1,10 +1,8 @@
     TODO (So any pull request is apreciated): 
 	* Add continuous scrolling & maybe an option for toggle hide scrollbars. 
 	* Add shift+scroll for horizontal scrolling
-	* Move to CMake to make it multiplatform easily
-           (If Meson support Windows then it become also an option)
 	* Change icons for some more originals to not use GNOME icons anymore
-	* Port to GTK+ 3.0 to keep a lightweight alternative to evince alive
+	* Finish the port to GTK+ 3.0 to keep a lightweight alternative to evince alive
     (Any pull request to add functionality is also apreciated).
 
 
@@ -46,7 +44,7 @@
  Requirements
  ============
  
- GTK+ version 2.6.0 or higher ( http://www.gtk.org/ ), but lower than 2.95.0
- Poppler version 0.5.0 with glib bindings ( http://poppler.freedesktop.org/ )
+ GTK+ version 3.22.0 or higher ( http://www.gtk.org/ )
+ Poppler version 0.17.0 with glib bindings ( http://poppler.freedesktop.org/ )
  CppUnit to run the test suite ( http://cppunit.sourceforge.net/ )
  Doxygen to build the documentation ( http://www.stack.nl/~dimitri/doxygen/ )
