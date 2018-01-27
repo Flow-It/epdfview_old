@@ -232,9 +232,14 @@ PageView::setCursor (PageCursor cursorType)
             default:
                 cursor = NULL;
         }
-        if ( NULL != m_EventBox && GDK_IS_WINDOW (m_EventBox->window) )
+
+	if ( NULL != m_EventBox )
         {
-            gdk_window_set_cursor (m_EventBox->window, cursor);
+	    GdkWindow *win = gtk_widget_get_window (m_EventBox);
+            if ( NULL != win )
+	    {
+                gdk_window_set_cursor (win, cursor);
+	    }
         }
         if ( NULL != cursor )
         {

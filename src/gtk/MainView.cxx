@@ -703,9 +703,13 @@ MainView::setCursor (ViewCursor cursorType)
             cursor = NULL;
     }
 
-    if ( NULL != m_MainWindow && GDK_IS_WINDOW (m_MainWindow->window) )
+    if ( NULL != m_MainWindow )
     {
-        gdk_window_set_cursor (m_MainWindow->window, cursor);
+        GdkWindow *win = gtk_widget_get_window (m_MainWindow);
+	if ( NULL != win)
+	{
+            gdk_window_set_cursor (win, cursor);
+	}
     }
     if ( NULL != cursor )
     {
