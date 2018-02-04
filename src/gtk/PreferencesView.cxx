@@ -94,13 +94,14 @@ PreferencesView::getBacksearchCommandLine ()
 GtkWidget *
 PreferencesView::createExternalCommandsTab ()
 {
-    // The alignment for the frame.
-    GtkWidget *alignment = gtk_alignment_new (1, 1, 0, 0);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 0, 12, 6);
-
     // The grid to add all the controls.
     GtkWidget *grid = gtk_grid_new ();
-    gtk_container_add (GTK_CONTAINER (alignment), grid);
+    gtk_widget_set_halign (grid, GTK_ALIGN_END);
+    gtk_widget_set_valign (grid, GTK_ALIGN_END);
+    gtk_widget_set_margin_start (grid, 6);
+    gtk_widget_set_margin_end (grid, 6);
+    gtk_widget_set_margin_top (grid, 6);
+    gtk_widget_set_margin_bottom (grid, 6);
     gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
     gtk_grid_set_column_spacing (GTK_GRID (grid), 3);
 
@@ -149,7 +150,7 @@ PreferencesView::createExternalCommandsTab ()
     gtk_grid_attach (GTK_GRID (grid), note2, 0, 3, 2, 1);
 
 
-    return alignment;
+    return grid;
 }
 
 ////////////////////////////////////////////////////////////////
