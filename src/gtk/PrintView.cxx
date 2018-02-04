@@ -366,11 +366,11 @@ PrintView::createJobTab ()
     GtkWidget *printRangeAlign = gtk_alignment_new (0, 0, 1, 1);
     gtk_alignment_set_padding (GTK_ALIGNMENT (printRangeAlign), 6, 0, 12, 6);
     gtk_container_add (GTK_CONTAINER (printRangeFrame), printRangeAlign);
-    // The table to add all controls.
-    GtkWidget *printRangeTable = gtk_table_new (2, 2, FALSE);
-    gtk_container_add (GTK_CONTAINER (printRangeAlign), printRangeTable);
-    gtk_table_set_row_spacings (GTK_TABLE (printRangeTable), 3);
-    gtk_table_set_col_spacings (GTK_TABLE (printRangeTable), 12);
+    // The grid to add all controls.
+    GtkWidget *printRangeGrid = gtk_grid_new ();
+    gtk_container_add (GTK_CONTAINER (printRangeAlign), printRangeGrid);
+    gtk_grid_set_row_spacing (GTK_GRID (printRangeGrid), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (printRangeGrid), 3);
     // Create the two radio buttons.
     m_AllPagesRangeOption =
         gtk_radio_button_new_with_mnemonic (NULL, _("_All pages"));
@@ -378,14 +378,12 @@ PrintView::createJobTab ()
         gtk_radio_button_new_with_mnemonic_from_widget (
                 GTK_RADIO_BUTTON (m_AllPagesRangeOption), _("_Range:"));
     m_PageRange = gtk_entry_new ();
-    gtk_table_attach_defaults (GTK_TABLE (printRangeTable),
-                               m_AllPagesRangeOption,
-                               0, 2, 0, 1);
-    gtk_table_attach_defaults (GTK_TABLE (printRangeTable),
-                               m_CustomPagesRangeOption,
-                               0, 1, 1, 2);
-    gtk_table_attach_defaults (GTK_TABLE (printRangeTable), m_PageRange,
-                               1, 2, 1, 2);
+    gtk_grid_attach (GTK_GRID (printRangeGrid), m_AllPagesRangeOption,
+                               0, 0, 2, 1);
+    gtk_grid_attach (GTK_GRID (printRangeGrid), m_CustomPagesRangeOption,
+                               0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (printRangeGrid), m_PageRange,
+                               1, 1, 1, 1);
 
     // Page set frame
     GtkWidget *pageSetLabel = gtk_label_new (_("<b>Page Set</b>"));
@@ -428,11 +426,11 @@ PrintView::createJobTab ()
     GtkWidget *copiesAlign = gtk_alignment_new (0, 0, 1, 1);
     gtk_alignment_set_padding (GTK_ALIGNMENT (copiesAlign), 6, 0, 12, 6);
     gtk_container_add (GTK_CONTAINER (copiesFrame), copiesAlign);
-    // The table to add all controls.
-    GtkWidget *copiesTable = gtk_table_new (2, 2, FALSE);
-    gtk_container_add (GTK_CONTAINER (copiesAlign), copiesTable);
-    gtk_table_set_row_spacings (GTK_TABLE (copiesTable), 3);
-    gtk_table_set_col_spacings (GTK_TABLE (copiesTable), 12);
+    // The grid to add all controls.
+    GtkWidget *copiesGrid = gtk_grid_new ();
+    gtk_container_add (GTK_CONTAINER (copiesAlign), copiesGrid);
+    gtk_grid_set_row_spacing (GTK_GRID (copiesGrid), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (copiesGrid), 3);
     // Create the Num. of Copies label and spin.
     GtkWidget *numCopiesLabel = gtk_label_new (_("N_umber of copies:"));
     gtk_label_set_xalign (GTK_LABEL (numCopiesLabel), 1.0f);
@@ -442,15 +440,9 @@ PrintView::createJobTab ()
                                    m_NumberOfCopies);
     // Create the collate check box.
     m_Collate = gtk_check_button_new_with_mnemonic (_("C_ollate"));
-    gtk_table_attach (GTK_TABLE (copiesTable), numCopiesLabel,
-                      0, 1, 0, 1,
-                      (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      0, 0);
-    gtk_table_attach_defaults (GTK_TABLE (copiesTable), m_NumberOfCopies,
-                               1, 2, 0, 1);
-    gtk_table_attach_defaults (GTK_TABLE (copiesTable), m_Collate,
-                               1, 2, 1, 2);
+    gtk_grid_attach (GTK_GRID (copiesGrid), numCopiesLabel, 0, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (copiesGrid), m_NumberOfCopies, 1, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (copiesGrid), m_Collate, 1, 1, 1, 1);
 
     return mainBox;
 }
@@ -473,11 +465,11 @@ PrintView::createPaperTab ()
     GtkWidget *paperAlign = gtk_alignment_new (0, 0, 1, 1);
     gtk_alignment_set_padding (GTK_ALIGNMENT (paperAlign), 6, 0, 12, 6);
     gtk_container_add (GTK_CONTAINER (paperFrame), paperAlign);
-    // The table to add all controls.
-    GtkWidget *paperTable = gtk_table_new (3, 2, FALSE);
-    gtk_container_add (GTK_CONTAINER (paperAlign), paperTable);
-    gtk_table_set_row_spacings (GTK_TABLE (paperTable), 3);
-    gtk_table_set_col_spacings (GTK_TABLE (paperTable), 12);
+    // The grid to add all controls.
+    GtkWidget *paperGrid = gtk_grid_new ();
+    gtk_container_add (GTK_CONTAINER (paperAlign), paperGrid);
+    gtk_grid_set_row_spacing (GTK_GRID (paperGrid), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (paperGrid), 3);
     // Paper size and combobox
     GtkWidget *paperSizeLabel = gtk_label_new (_("Paper _Size:"));
     gtk_label_set_xalign (GTK_LABEL (paperSizeLabel), 1.0f);
@@ -494,16 +486,9 @@ PrintView::createPaperTab ()
                                         "text",
                                         printOptionLabelColumn, NULL);
     }
-    gtk_table_attach (GTK_TABLE (paperTable), paperSizeLabel,
-                      0, 1, 0, 1,
-                      (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
-    gtk_table_attach (GTK_TABLE (paperTable), m_PageSizeView,
-                      1, 2, 0, 1,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
+    gtk_grid_attach (GTK_GRID (paperGrid), paperSizeLabel, 0, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (paperGrid), m_PageSizeView, 1, 0, 1, 1);
+
     // Page orientation label and combobox
     GtkWidget *pageOrientationLabel = gtk_label_new (_("Page _orientation:"));
     gtk_label_set_xalign (GTK_LABEL (pageOrientationLabel), 1.0f);
@@ -525,16 +510,9 @@ PrintView::createPaperTab ()
     }
     gtk_combo_box_set_active (GTK_COMBO_BOX (m_OrientationView), 0);
 
-    gtk_table_attach (GTK_TABLE (paperTable), pageOrientationLabel,
-                      0, 1, 1, 2,
-                      (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
-    gtk_table_attach (GTK_TABLE (paperTable), m_OrientationView,
-                      1, 2, 1, 2,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
+    gtk_grid_attach (GTK_GRID (paperGrid), pageOrientationLabel, 0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (paperGrid), m_OrientationView, 1, 1, 1, 1);
+
     // Layout label and combobox
     GtkWidget *layoutLabel = gtk_label_new (_("_Layout:"));
     gtk_label_set_xalign (GTK_LABEL (layoutLabel), 1.0f);
@@ -553,16 +531,8 @@ PrintView::createPaperTab ()
     }
     gtk_combo_box_set_active (GTK_COMBO_BOX (m_LayoutView), 0);
 
-    gtk_table_attach (GTK_TABLE (paperTable), layoutLabel,
-                      0, 1, 2, 3,
-                      (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
-    gtk_table_attach (GTK_TABLE (paperTable), m_LayoutView,
-                      1, 2, 2, 3,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
+    gtk_grid_attach (GTK_GRID (paperGrid), layoutLabel, 0, 2, 1, 1);
+    gtk_grid_attach (GTK_GRID (paperGrid), m_LayoutView, 1, 2, 1, 1);
 
     // Output frame
     GtkWidget *outputLabel = gtk_label_new (_("<b>Output</b>"));
@@ -576,11 +546,11 @@ PrintView::createPaperTab ()
     GtkWidget *outputAlign = gtk_alignment_new (0, 0, 1, 1);
     gtk_alignment_set_padding (GTK_ALIGNMENT (outputAlign), 6, 0, 12, 6);
     gtk_container_add (GTK_CONTAINER (outputFrame), outputAlign);
-    // The table to add all controls.
-    GtkWidget *outputTable = gtk_table_new (2, 2, FALSE);
-    gtk_container_add (GTK_CONTAINER (outputAlign), outputTable);
-    gtk_table_set_row_spacings (GTK_TABLE (outputTable), 3);
-    gtk_table_set_col_spacings (GTK_TABLE (outputTable), 12);
+    // The grid to add all controls.
+    GtkWidget *outputGrid = gtk_grid_new ();
+    gtk_container_add (GTK_CONTAINER (outputAlign), outputGrid);
+    gtk_grid_set_row_spacing (GTK_GRID (outputGrid), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (outputGrid), 3);
     // Color mode
     GtkWidget *colorModeLabel = gtk_label_new (_("_Mode:"));
     gtk_label_set_xalign (GTK_LABEL (colorModeLabel), 1.0f);
@@ -599,16 +569,9 @@ PrintView::createPaperTab ()
                                         "text",
                                         printOptionLabelColumn, NULL);
     }
-    gtk_table_attach (GTK_TABLE (outputTable), colorModeLabel,
-                      0, 1, 0, 1,
-                      (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
-    gtk_table_attach (GTK_TABLE (outputTable), m_ColorModelView,
-                      1, 2, 0, 1,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
+    gtk_grid_attach (GTK_GRID (outputGrid), colorModeLabel, 0, 0, 1, 1);
+    gtk_grid_attach (GTK_GRID (outputGrid), m_ColorModelView, 1, 0, 1, 1);
+
     // Resolution
     GtkWidget *resolutionLabel = gtk_label_new (_("_Resolution:"));
     gtk_label_set_xalign (GTK_LABEL (resolutionLabel), 1.0f);
@@ -628,16 +591,8 @@ PrintView::createPaperTab ()
                                         "text",
                                         printOptionLabelColumn, NULL);
     }
-    gtk_table_attach (GTK_TABLE (outputTable), resolutionLabel,
-                      0, 1, 1, 2,
-                      (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
-    gtk_table_attach (GTK_TABLE (outputTable), m_ResolutionView,
-                      1, 2, 1, 2,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 0);
+    gtk_grid_attach (GTK_GRID (outputGrid), resolutionLabel, 0, 1, 1, 1);
+    gtk_grid_attach (GTK_GRID (outputGrid), m_ResolutionView, 1, 1, 1, 1);
 
     return mainBox;
 }
