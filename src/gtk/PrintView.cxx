@@ -348,6 +348,17 @@ PrintView::getOptionFromComboBox (GtkWidget *comboBox, gpointer value)
 // Tab Creators
 ////////////////////////////////////////////////////////////////
 
+static void
+tabpage_set_alignment (GtkWidget *widget)
+{
+    gtk_widget_set_hexpand (widget, TRUE);
+    gtk_widget_set_vexpand (widget, TRUE);
+    gtk_widget_set_margin_start (widget, 6);
+    gtk_widget_set_margin_end (widget, 6);
+    gtk_widget_set_margin_top (widget, 6);
+    gtk_widget_set_margin_bottom (widget, 6);
+}
+
 GtkWidget *
 PrintView::createJobTab ()
 {
@@ -355,22 +366,22 @@ PrintView::createJobTab ()
     gtk_container_set_border_width (GTK_CONTAINER (mainBox), 3);
 
     // Print range frame.
-    GtkWidget *printRangeLabel = gtk_label_new (_("<b>Print Range</b>"));
     GtkWidget *printRangeFrame = gtk_frame_new (NULL);
+    tabpage_set_alignment (printRangeFrame);
     gtk_box_pack_start (GTK_BOX (mainBox), printRangeFrame, TRUE, TRUE, 0);
+
     // Set a bold label and no border.
+    GtkWidget *printRangeLabel = gtk_label_new (_("<b>Print Range</b>"));
     gtk_label_set_use_markup (GTK_LABEL (printRangeLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (printRangeFrame), printRangeLabel);
     gtk_frame_set_shadow_type (GTK_FRAME (printRangeFrame), GTK_SHADOW_NONE);
-    // The alignment.
-    GtkWidget *printRangeAlign = gtk_alignment_new (0, 0, 1, 1);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (printRangeAlign), 6, 0, 12, 6);
-    gtk_container_add (GTK_CONTAINER (printRangeFrame), printRangeAlign);
+
     // The grid to add all controls.
     GtkWidget *printRangeGrid = gtk_grid_new ();
-    gtk_container_add (GTK_CONTAINER (printRangeAlign), printRangeGrid);
+    gtk_container_add (GTK_CONTAINER (printRangeFrame), printRangeGrid);
     gtk_grid_set_row_spacing (GTK_GRID (printRangeGrid), 12);
     gtk_grid_set_column_spacing (GTK_GRID (printRangeGrid), 3);
+
     // Create the two radio buttons.
     m_AllPagesRangeOption =
         gtk_radio_button_new_with_mnemonic (NULL, _("_All pages"));
@@ -386,21 +397,21 @@ PrintView::createJobTab ()
                                1, 1, 1, 1);
 
     // Page set frame
-    GtkWidget *pageSetLabel = gtk_label_new (_("<b>Page Set</b>"));
     GtkWidget *pageSetFrame = gtk_frame_new (NULL);
+    tabpage_set_alignment (pageSetFrame);
     gtk_box_pack_start (GTK_BOX (mainBox), pageSetFrame, TRUE, TRUE, 0);
+
     // Set a bold label and no border.
+    GtkWidget *pageSetLabel = gtk_label_new (_("<b>Page Set</b>"));
     gtk_label_set_use_markup (GTK_LABEL (pageSetLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (pageSetFrame), pageSetLabel);
     gtk_frame_set_shadow_type (GTK_FRAME (pageSetFrame), GTK_SHADOW_NONE);
-    // The alignment.
-    GtkWidget *pageSetAlign = gtk_alignment_new (0, 0, 1, 1);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (pageSetAlign), 6, 0, 12, 6);
-    gtk_container_add (GTK_CONTAINER (pageSetFrame), pageSetAlign);
+
     // The vbox to add all controls.
     GtkWidget *pageSetBox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 3);
     gtk_box_set_homogeneous (GTK_BOX (pageSetBox), TRUE);
-    gtk_container_add (GTK_CONTAINER (pageSetAlign), pageSetBox);
+    gtk_container_add (GTK_CONTAINER (pageSetFrame), pageSetBox);
+
     // Add the three radio buttons
     GtkWidget *allPageSetRadio =
         gtk_radio_button_new_with_mnemonic (NULL, _("A_ll pages"));
@@ -415,22 +426,22 @@ PrintView::createJobTab ()
     gtk_box_pack_start (GTK_BOX (pageSetBox), m_EvenPageSet, TRUE, TRUE, 0);
 
     // Copies frame
-    GtkWidget *copiesLabel = gtk_label_new (_("<b>Copies</b>"));
     GtkWidget *copiesFrame = gtk_frame_new (NULL);
+    tabpage_set_alignment (copiesFrame);
     gtk_box_pack_start(GTK_BOX (mainBox), copiesFrame, TRUE, TRUE, 0);
+
     // Set a bold label and no border.
+    GtkWidget *copiesLabel = gtk_label_new (_("<b>Copies</b>"));
     gtk_label_set_use_markup (GTK_LABEL (copiesLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (copiesFrame), copiesLabel);
     gtk_frame_set_shadow_type (GTK_FRAME (copiesFrame), GTK_SHADOW_NONE);
-    // The alignment.
-    GtkWidget *copiesAlign = gtk_alignment_new (0, 0, 1, 1);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (copiesAlign), 6, 0, 12, 6);
-    gtk_container_add (GTK_CONTAINER (copiesFrame), copiesAlign);
+
     // The grid to add all controls.
     GtkWidget *copiesGrid = gtk_grid_new ();
-    gtk_container_add (GTK_CONTAINER (copiesAlign), copiesGrid);
+    gtk_container_add (GTK_CONTAINER (copiesFrame), copiesGrid);
     gtk_grid_set_row_spacing (GTK_GRID (copiesGrid), 12);
     gtk_grid_set_column_spacing (GTK_GRID (copiesGrid), 3);
+
     // Create the Num. of Copies label and spin.
     GtkWidget *numCopiesLabel = gtk_label_new (_("N_umber of copies:"));
     gtk_label_set_xalign (GTK_LABEL (numCopiesLabel), 1.0f);
@@ -438,6 +449,7 @@ PrintView::createJobTab ()
     m_NumberOfCopies = gtk_spin_button_new_with_range (1, 999, 1);
     gtk_label_set_mnemonic_widget (GTK_LABEL (numCopiesLabel),
                                    m_NumberOfCopies);
+
     // Create the collate check box.
     m_Collate = gtk_check_button_new_with_mnemonic (_("C_ollate"));
     gtk_grid_attach (GTK_GRID (copiesGrid), numCopiesLabel, 0, 0, 1, 1);
@@ -454,22 +466,22 @@ PrintView::createPaperTab ()
     gtk_container_set_border_width (GTK_CONTAINER (mainBox), 3);
 
     // Paper frame
-    GtkWidget *paperLabel = gtk_label_new (_("<b>Paper and Layout</b>"));
     GtkWidget *paperFrame = gtk_frame_new (NULL);
+    tabpage_set_alignment (paperFrame);
     gtk_box_pack_start (GTK_BOX (mainBox), paperFrame, TRUE, TRUE, 0);
+
     // Set a bold label and no border.
+    GtkWidget *paperLabel = gtk_label_new (_("<b>Paper and Layout</b>"));
     gtk_label_set_use_markup (GTK_LABEL (paperLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (paperFrame), paperLabel);
     gtk_frame_set_shadow_type (GTK_FRAME (paperFrame), GTK_SHADOW_NONE);
-    // The alignment.
-    GtkWidget *paperAlign = gtk_alignment_new (0, 0, 1, 1);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (paperAlign), 6, 0, 12, 6);
-    gtk_container_add (GTK_CONTAINER (paperFrame), paperAlign);
+
     // The grid to add all controls.
     GtkWidget *paperGrid = gtk_grid_new ();
-    gtk_container_add (GTK_CONTAINER (paperAlign), paperGrid);
+    gtk_container_add (GTK_CONTAINER (paperFrame), paperGrid);
     gtk_grid_set_row_spacing (GTK_GRID (paperGrid), 12);
     gtk_grid_set_column_spacing (GTK_GRID (paperGrid), 3);
+
     // Paper size and combobox
     GtkWidget *paperSizeLabel = gtk_label_new (_("Paper _Size:"));
     gtk_label_set_xalign (GTK_LABEL (paperSizeLabel), 1.0f);
@@ -535,22 +547,22 @@ PrintView::createPaperTab ()
     gtk_grid_attach (GTK_GRID (paperGrid), m_LayoutView, 1, 2, 1, 1);
 
     // Output frame
-    GtkWidget *outputLabel = gtk_label_new (_("<b>Output</b>"));
     GtkWidget *outputFrame = gtk_frame_new (NULL);
+    tabpage_set_alignment (outputFrame);
     gtk_box_pack_start (GTK_BOX (mainBox), outputFrame, TRUE, TRUE, 0);
+
     // Set a bold label and no border.
+    GtkWidget *outputLabel = gtk_label_new (_("<b>Output</b>"));
     gtk_label_set_use_markup (GTK_LABEL (outputLabel), TRUE);
     gtk_frame_set_label_widget (GTK_FRAME (outputFrame), outputLabel);
     gtk_frame_set_shadow_type (GTK_FRAME (outputFrame), GTK_SHADOW_NONE);
-    // The alignment.
-    GtkWidget *outputAlign = gtk_alignment_new (0, 0, 1, 1);
-    gtk_alignment_set_padding (GTK_ALIGNMENT (outputAlign), 6, 0, 12, 6);
-    gtk_container_add (GTK_CONTAINER (outputFrame), outputAlign);
+
     // The grid to add all controls.
     GtkWidget *outputGrid = gtk_grid_new ();
-    gtk_container_add (GTK_CONTAINER (outputAlign), outputGrid);
+    gtk_container_add (GTK_CONTAINER (outputFrame), outputGrid);
     gtk_grid_set_row_spacing (GTK_GRID (outputGrid), 12);
     gtk_grid_set_column_spacing (GTK_GRID (outputGrid), 3);
+
     // Color mode
     GtkWidget *colorModeLabel = gtk_label_new (_("_Mode:"));
     gtk_label_set_xalign (GTK_LABEL (colorModeLabel), 1.0f);
