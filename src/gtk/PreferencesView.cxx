@@ -98,11 +98,11 @@ PreferencesView::createExternalCommandsTab ()
     GtkWidget *alignment = gtk_alignment_new (1, 1, 0, 0);
     gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 0, 12, 6);
 
-    // The table to add all the controls.
-    GtkWidget *table = gtk_table_new (4, 2, FALSE);
-    gtk_container_add (GTK_CONTAINER (alignment), table);
-    gtk_table_set_row_spacings (GTK_TABLE (table), 3);
-    gtk_table_set_col_spacings (GTK_TABLE (table), 12);
+    // The grid to add all the controls.
+    GtkWidget *grid = gtk_grid_new ();
+    gtk_container_add (GTK_CONTAINER (alignment), grid);
+    gtk_grid_set_row_spacing (GTK_GRID (grid), 12);
+    gtk_grid_set_column_spacing (GTK_GRID (grid), 3);
 
     m_BrowserCommandLine = gtk_entry_new ();
     GtkWidget *webBrowserLabel = gtk_label_new (_("Web_Browser:"));
@@ -111,32 +111,22 @@ PreferencesView::createExternalCommandsTab ()
     gtk_label_set_use_underline (GTK_LABEL (webBrowserLabel), TRUE);
     gtk_label_set_mnemonic_widget (GTK_LABEL (webBrowserLabel),
                                    m_BrowserCommandLine);
-    gtk_table_attach (GTK_TABLE (table), webBrowserLabel,
-                              0, 1, 0, 1,
-                               (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                               (GtkAttachOptions)(GTK_SHRINK),
-                               0, 0);
+    gtk_grid_attach (GTK_GRID (grid), webBrowserLabel, 0, 0, 1, 1);
+
     // The web browser.
     gchar *browserCommandLine =
         Config::getConfig ().getExternalBrowserCommandLine ();
     gtk_entry_set_text (GTK_ENTRY (m_BrowserCommandLine), browserCommandLine);
     g_free (browserCommandLine);
-    gtk_table_attach_defaults (GTK_TABLE (table), m_BrowserCommandLine,
-                               1, 2, 0, 1);
-
+    gtk_grid_attach (GTK_GRID (grid), m_BrowserCommandLine, 1, 0, 1, 1);
 
     // The %s note.
     GtkWidget *note = gtk_label_new (_("Note: <i>%s</i> will be replaced by the URI."));
     gtk_label_set_xalign (GTK_LABEL (note), 0.0f);
     gtk_label_set_use_markup (GTK_LABEL (note), TRUE);
-    gtk_table_attach (GTK_TABLE (table), note, 0, 2, 1, 2,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 12);
+    gtk_grid_attach (GTK_GRID (grid), note, 0, 1, 2, 1);
 
-	//
-	// Back-searching (through SyncTeX)
-	//
+    // Back-searching (through SyncTeX)
     m_BacksearchCommandLine = gtk_entry_new ();
     GtkWidget *backsearchLabel = gtk_label_new (_("SyncTeX script:"));
     gtk_label_set_xalign (GTK_LABEL (backsearchLabel), 1.0f);
@@ -144,27 +134,19 @@ PreferencesView::createExternalCommandsTab ()
     gtk_label_set_use_underline (GTK_LABEL (backsearchLabel), TRUE);
     gtk_label_set_mnemonic_widget (GTK_LABEL (backsearchLabel),
                                    m_BacksearchCommandLine);
-    gtk_table_attach (GTK_TABLE (table), backsearchLabel,
-                               0, 1, 2, 3,
-                               (GtkAttachOptions)(GTK_SHRINK | GTK_FILL),
-                               (GtkAttachOptions)(GTK_SHRINK),
-                               0, 0);
+    gtk_grid_attach (GTK_GRID (grid), backsearchLabel, 0, 2, 1, 1);
     gchar *backsearchCommandLine =
         Config::getConfig ().getExternalBacksearchCommandLine ();
     gtk_entry_set_text (GTK_ENTRY (m_BacksearchCommandLine), backsearchCommandLine);
     g_free (backsearchCommandLine);
-    gtk_table_attach_defaults (GTK_TABLE (table), m_BacksearchCommandLine,
-                               1, 2, 2, 3);
+    gtk_grid_attach (GTK_GRID (grid), m_BacksearchCommandLine, 1, 2, 1, 1);
 
 
     // The meaning of %p %x %y %f
     GtkWidget *note2 = gtk_label_new (_("Note: <i>%p</i>=page <i>%x,%y</i>=coordinates <i>%f</i>=PDF file"));
     gtk_label_set_xalign (GTK_LABEL (note2), 0.0f);
     gtk_label_set_use_markup (GTK_LABEL (note2), TRUE);
-    gtk_table_attach (GTK_TABLE (table), note2, 0, 2, 3, 4,
-                      (GtkAttachOptions)(GTK_EXPAND | GTK_FILL),
-                      (GtkAttachOptions)(GTK_SHRINK),
-                      0, 12);
+    gtk_grid_attach (GTK_GRID (grid), note2, 0, 3, 2, 1);
 
 
     return alignment;
