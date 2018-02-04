@@ -89,41 +89,41 @@ static const GtkActionEntry g_NormalEntries[] =
     { "GoMenu", NULL, N_("_Go"), NULL, NULL, NULL },
     { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 
-    { "OpenFile", GTK_STOCK_OPEN, N_("_Open"), "<control>O",
+    { "OpenFile", "document-open", N_("_Open"), "<control>O",
       N_("Open a PDF document"),
       G_CALLBACK (main_window_open_file_cb) },
 
-    { "ReloadFile", GTK_STOCK_REFRESH, N_("_Reload"), "<control>R",
+    { "ReloadFile", "view-refresh", N_("_Reload"), "<control>R",
       N_("Reload the current document"),
       G_CALLBACK (main_window_reload_cb) },
 
-    { "SaveFile", GTK_STOCK_SAVE, N_("_Save a Copy..."), "<control>S",
+    { "SaveFile", "document-save", N_("_Save a Copy..."), "<control>S",
       N_("Save a copy of the current document"),
       G_CALLBACK (main_window_save_file_cb) },
 
 #if defined (HAVE_CUPS)
-    { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
+    { "Print", "document-print", N_("_Print..."), "<control>P",
       N_("Print the current document"),
       G_CALLBACK (main_window_print_cb) },
 #endif // HAVE_CUPS
 
-    { "Quit", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
+    { "Quit", "window-close", N_("_Close"), "<control>W",
       N_("Close this window"),
       G_CALLBACK (main_window_quit_cb) },
 
-    { "Find", GTK_STOCK_FIND, N_("_Find"), "<control>F",
+    { "Find", "edit-find", N_("_Find"), "<control>F",
       N_("Find a word in the document"),
       G_CALLBACK (main_window_find_cb) },
 
-    { "Preferences", GTK_STOCK_PREFERENCES, N_("_Preferences..."), NULL,
+    { "Preferences", "preferences-system", N_("_Preferences..."), NULL,
       N_("Change the application's preferences"),
       G_CALLBACK (main_window_preferences_cb) },
 
-    { "ZoomIn", GTK_STOCK_ZOOM_IN, N_("Zoom _In"), "<control>plus",
+    { "ZoomIn", "zoom-in", N_("Zoom _In"), "<control>plus",
       N_("Enlarge the document"),
       G_CALLBACK (main_window_zoom_in_cb) },
 
-    { "ZoomOut", GTK_STOCK_ZOOM_OUT, N_("Zoom _Out"), "<control>minus",
+    { "ZoomOut", "zoom-out", N_("Zoom _Out"), "<control>minus",
       N_("Shrink the document"),
       G_CALLBACK (main_window_zoom_out_cb) },
 
@@ -135,34 +135,34 @@ static const GtkActionEntry g_NormalEntries[] =
       N_("Rotate the document 90 degrees counter-clockwise"),
       G_CALLBACK (main_window_rotate_left_cb) },
 
-    { "GoToFirstPage", GTK_STOCK_GOTO_FIRST, N_("_First Page"), "<control>Home",
+    { "GoToFirstPage", "go-first", N_("_First Page"), "<control>Home",
       N_("Go to the first page"),
       G_CALLBACK (main_window_go_to_first_page_cb) },
 
-    { "GoToNextPage", GTK_STOCK_GO_FORWARD, N_("_Next Page"), "<Shift>Page_Down",
+    { "GoToNextPage", "go-next", N_("_Next Page"), "<Shift>Page_Down",
       N_("Go to the next page"),
       G_CALLBACK (main_window_go_to_next_page_cb) },
 
-    { "GoToPreviousPage", GTK_STOCK_GO_BACK, N_("_Previous Page"), "<Shift>Page_Up",
+    { "GoToPreviousPage", "go-previous", N_("_Previous Page"), "<Shift>Page_Up",
       N_("Go to the previous page"),
       G_CALLBACK (main_window_go_to_previous_page_cb) },
 
-    { "GoToLastPage", GTK_STOCK_GOTO_LAST, N_("_Last Page"), "<control>End",
+    { "GoToLastPage", "go-last", N_("_Last Page"), "<control>End",
       N_("Go to the last page"),
       G_CALLBACK (main_window_go_to_last_page_cb) },
 
-    { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
+    { "About", "help-about", N_("_About"), NULL,
       N_("Display application's credits"),
       G_CALLBACK (main_window_about_box_cb) },
 
     // Accelerator keys.
-    { "Slash", GTK_STOCK_FIND, NULL, "slash", NULL,
+    { "Slash", "edit-find", NULL, "slash", NULL,
       G_CALLBACK (main_window_find_cb) },
 
-    { "KPAdd", GTK_STOCK_ZOOM_IN, NULL, "<control>KP_Add", NULL,
+    { "KPAdd", "zoom-in", NULL, "<control>KP_Add", NULL,
       G_CALLBACK (main_window_zoom_in_cb) },
 
-    { "KPSubtract", GTK_STOCK_ZOOM_OUT, NULL, "<control>KP_Subtract",
+    { "KPSubtract", "zoom-out", NULL, "<control>KP_Subtract",
       NULL,
       G_CALLBACK (main_window_zoom_out_cb) }
 };
@@ -193,22 +193,22 @@ static GtkToggleActionEntry g_ToggleEntries[] =
       N_("Show or hide the document's outline"),
       G_CALLBACK (main_window_show_index_cb), FALSE },
 
-    { "ZoomFit", GTK_STOCK_ZOOM_FIT, N_("Zoom to _Fit"), NULL,
+    { "ZoomFit", "zoom-fit-best", N_("Zoom to _Fit"), NULL,
       N_("Make the current document fill the window"),
       G_CALLBACK (main_window_zoom_fit_cb), FALSE },
 
     // TODO use our own icon? at least a special icon for zoom-width
-    { "ZoomWidth",GTK_STOCK_ZOOM_FIT, N_("Zoom to _Width"), NULL,
+    { "ZoomWidth", "zoom-fit-best", N_("Zoom to _Width"), NULL,
       N_("Make the current document fill the window width"),
       G_CALLBACK (main_window_zoom_width_cb), FALSE },
 };
 
 static GtkRadioActionEntry g_PageScrollEntries[] =
 {   
-    { "PageModeScroll", GTK_STOCK_FULLSCREEN, N_("Scroll"), NULL,
+    { "PageModeScroll", "view-fullscreen", N_("Scroll"), NULL,
       N_("Mouse scroll page"), (int)PagePterModeScroll },
 
-    { "PageModeText", GTK_STOCK_SELECT_ALL, N_("Select Text"), NULL,
+    { "PageModeText", "edit-select-all", N_("Select Text"), NULL,
       N_(" Mouse select text"), (int)PagePterModeSelectText },
 };
 
@@ -333,8 +333,8 @@ MainView::openFileDialog (const gchar *lastFolder)
     GtkWidget *openDialog = gtk_file_chooser_dialog_new (_("Open PDF File"),
             GTK_WINDOW (m_MainWindow),
             GTK_FILE_CHOOSER_ACTION_OPEN,
-            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-            GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+            "_Cancel", GTK_RESPONSE_CANCEL,
+            "_Open", GTK_RESPONSE_ACCEPT,
             NULL);
     gtk_dialog_set_alternative_button_order (GTK_DIALOG (openDialog),
             GTK_RESPONSE_ACCEPT, GTK_RESPONSE_CANCEL, -1);
@@ -406,7 +406,7 @@ MainView::promptPasswordDialog ()
     gtk_box_pack_start (GTK_BOX (vbox), passwordEntry, FALSE, FALSE, 6);
 
     GtkWidget *image =
-        gtk_image_new_from_stock (GTK_STOCK_DIALOG_AUTHENTICATION,
+        gtk_image_new_from_icon_name ("dialog-password",
                                   GTK_ICON_SIZE_DIALOG);
     gtk_widget_set_halign (image, GTK_ALIGN_CENTER);
     gtk_widget_set_valign (image, GTK_ALIGN_START);
@@ -419,8 +419,8 @@ MainView::promptPasswordDialog ()
     GtkWidget *passwordDialog = gtk_dialog_new_with_buttons (
             _("Password"), GTK_WINDOW (m_MainWindow),
             GTK_DIALOG_DESTROY_WITH_PARENT,
-            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-            GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+            "_Cancel", GTK_RESPONSE_CANCEL,
+            "_OK", GTK_RESPONSE_ACCEPT,
             NULL);
     gtk_dialog_set_alternative_button_order (GTK_DIALOG (passwordDialog),
             GTK_RESPONSE_ACCEPT, GTK_RESPONSE_CANCEL, -1);
@@ -445,8 +445,8 @@ MainView::saveFileDialog (const gchar *lastFolder, const gchar *fileName)
     GtkWidget *saveDialog = gtk_file_chooser_dialog_new (_("Save PDF File"),
             GTK_WINDOW (m_MainWindow),
             GTK_FILE_CHOOSER_ACTION_SAVE,
-            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-            GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+            "_Cancel", GTK_RESPONSE_CANCEL,
+            "_Save", GTK_RESPONSE_ACCEPT,
             NULL);
     gtk_file_chooser_set_do_overwrite_confirmation (
             GTK_FILE_CHOOSER (saveDialog), TRUE);

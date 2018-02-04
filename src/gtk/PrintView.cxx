@@ -48,8 +48,8 @@ PrintView::PrintView (GtkWindow *parent):
 {
     m_PrintDialog = gtk_dialog_new_with_buttons (_("Print"),
             parent, GTK_DIALOG_MODAL,
-            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-            GTK_STOCK_PRINT, GTK_RESPONSE_ACCEPT,
+            "_Cancel", GTK_RESPONSE_CANCEL,
+            "_Print", GTK_RESPONSE_ACCEPT,
             NULL);
     // In some window managers the buttons must be reversed.
     gtk_dialog_set_alternative_button_order (GTK_DIALOG (m_PrintDialog),

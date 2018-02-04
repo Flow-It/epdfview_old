@@ -29,10 +29,10 @@ PreferencesView::PreferencesView (GtkWindow *parent):
     IPreferencesView ()
 {
     m_PreferencesDialog = gtk_dialog_new_with_buttons (_("Preferences"),
-													   parent, GTK_DIALOG_MODAL,
-													   // GTK_STOCK_OK,    GTK_RESPONSE_ACCEPT,
-													   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+	    parent, GTK_DIALOG_MODAL,
+	    "window-close", GTK_RESPONSE_CLOSE,
             NULL);
+
     // Utility dialog should not show itself in the window list.
     gtk_window_set_skip_taskbar_hint (GTK_WINDOW (m_PreferencesDialog), TRUE);
 

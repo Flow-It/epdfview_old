@@ -46,7 +46,9 @@ FindView::FindView ():
     gtk_toolbar_set_style (GTK_TOOLBAR (m_FindBar), GTK_TOOLBAR_BOTH_HORIZ);
 
     // The "Close" button.
-    m_Close = gtk_tool_button_new_from_stock (GTK_STOCK_CLOSE);
+    GtkWidget *close_img = gtk_image_new_from_icon_name (
+		    "window-close", GTK_ICON_SIZE_BUTTON);
+    m_Close = gtk_tool_button_new (close_img, NULL);
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), m_Close, -1);
 
     // The text to find entry.
@@ -61,13 +63,16 @@ FindView::FindView ():
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), textToFindItem, -1);
 
     // The "Find Next" button.
-    m_FindNext = gtk_tool_button_new_from_stock (GTK_STOCK_GO_FORWARD);
+    GtkWidget *findnext_img = gtk_image_new_from_icon_name (
+		    "go-next", GTK_ICON_SIZE_BUTTON);
+    m_FindNext = gtk_tool_button_new (findnext_img, NULL);
     gtk_tool_item_set_is_important (m_FindNext, TRUE);
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), m_FindNext, -1);
 
     // The "Find Previous" button.
-    m_FindPrevious = 
-        gtk_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
+    GtkWidget *findprev_img = gtk_image_new_from_icon_name (
+		    "go-previous", GTK_ICON_SIZE_BUTTON);
+    m_FindPrevious = gtk_tool_button_new (findprev_img, NULL);
     gtk_tool_item_set_is_important (m_FindPrevious, TRUE);
     gtk_toolbar_insert (GTK_TOOLBAR (m_FindBar), m_FindPrevious, -1);
 
