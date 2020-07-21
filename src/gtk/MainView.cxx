@@ -1572,11 +1572,11 @@ main_window_page_scrolled_cb (GtkWidget *widget, GdkEventScroll *event, gpointer
     // Only zoom when the CTRL-Button is down...
     if ( GDK_CONTROL_MASK == (event->state & GDK_CONTROL_MASK) )
     {
-        if ( event->direction == GDK_SCROLL_UP )
+        if ( event->delta_y < 0 )
         {
             pter->zoomInActivated ();
         }
-        else if ( event->direction == GDK_SCROLL_DOWN )
+        else if ( event->delta_y < 0 )
         {
             pter->zoomOutActivated ();
         }
