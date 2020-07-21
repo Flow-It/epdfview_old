@@ -1576,7 +1576,7 @@ main_window_page_scrolled_cb (GtkWidget *widget, GdkEventScroll *event, gpointer
         {
             pter->zoomInActivated ();
         }
-        else if ( event->delta_y < 0 )
+        else if ( event->delta_y > 0 )
         {
             pter->zoomOutActivated ();
         }

@@ -560,12 +560,12 @@ page_view_scrolled_cb (GtkWidget *widget, GdkEventScroll *event, gpointer data)
     gdouble upper = gtk_adjustment_get_upper (adjustment);
     gdouble pagesize = gtk_adjustment_get_page_size (adjustment);
 
-    if ( event->delta_y&& position == lower )
+    if ( event->delta_y < 0 && position == lower )
     {
         pter->scrollToPreviousPage ();
         return TRUE;
     }
-    else if ( event->delta_y &&position == ( upper - pagesize) )
+    else if ( event->delta_y > 0 &&position == ( upper - pagesize) )
     {
         pter->scrollToNextPage ();
         return TRUE;
