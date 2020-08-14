@@ -27,7 +27,7 @@ foreach s: ['24x24', '32x32', '48x48']
   install_data(icon, install_dir : inspath)
 endforeach
 
-install_data(join_paths('icons', 'scalable', 'epdfview.svg'), install_dir : join_paths(datadir, 'icons/hicolor', 'scalable', 'apps'))
+install_data(('icons/scalable/epdfview.svg'), install_dir : join_paths(datadir, 'icons/hicolor/scalable/apps'))
 install_data(pixmap_data, install_dir : join_paths(datadir, meson.project_name(), 'pixmaps'))
 install_data(ui_data, install_dir : join_paths(datadir, meson.project_name(), 'ui'))
 install_data(desktop_data, install_dir : join_paths(datadir, 'applications'))
